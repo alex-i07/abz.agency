@@ -34,4 +34,13 @@ class Employee extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+
+    public function children()
+    {
+        return $this->hasMany('App\Employee','parent_id','id') ;
+    }
 }

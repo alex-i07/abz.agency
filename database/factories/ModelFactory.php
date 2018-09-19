@@ -18,10 +18,10 @@ $factory->define(App\Employee::class, function (Faker\Generator $faker) {
     static $password;
 
     /*
-     * Let be 10% of employees of 2nd level,
-     * 20% of 3rd level,
-     * 30% of 4th level
-     * and 40% of 5 level
+     * Let be 10% of employees of 2nd level(parent_id=1),
+     * 20% of 3rd level(parent_id=2),
+     * 30% of 4th level(parent_id=3)
+     * and 40% of 5 level(parent_id=4)
      * */
 
     $weight = [2, 3, 3, 4, 4, 4, 5, 5, 5, 5];
@@ -49,13 +49,14 @@ $factory->define(App\Employee::class, function (Faker\Generator $faker) {
     }
 
     return [
+        'parent_id' => 0,
+        'hierarchy_level' => $hierarchyLevel,
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('123456'),
         'position' => $faker->jobTitle,
         'date_of_employment' => $faker->date($format = 'Y-m-d', $max = 'now'),
         'salary' => $salary,
-        'hierarchy_level' => $hierarchyLevel,
         'remember_token' => str_random(60),
     ];
 });
