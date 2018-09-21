@@ -43,4 +43,9 @@ class Employee extends Authenticatable
     {
         return $this->hasMany('App\Employee','parent_id','id') ;
     }
+
+    public function parent()
+    {
+        return $this->belongsTo('App\Employee');
+    }
 }

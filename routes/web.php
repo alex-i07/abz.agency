@@ -17,6 +17,8 @@
 
 Route::get('/', 'PageController@mainPage');
 
+Route::get('fetch-children/{dbId}', 'PageController@fetchChildren');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

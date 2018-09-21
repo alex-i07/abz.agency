@@ -26,15 +26,26 @@ class PageController extends Controller
 
     public function mainPage()
     {
-        $firstEmployee = ['text' => Employee::first()->name,
-                                  'tags' => Employee::first()->children()->count()];
+
+        $collection = Employee::where ('hierarchy_level', '=', 1)->get();
 
 
-//        JavaScript::put([
-//            'foo' => 'bar'
-//        ]);
+        $firstLevelEmployee = $collection->map(function ($item, $key) {
+            return ['text' => $item->name,
+                    'childrenNumber' => Employee::find($item->id)->children()->count(),
+                    'dbId' => $item->id,
+                    'hierarchyLevel' => $item-> hierarchy_level];
+        });
 
-        return view('welcome', compact('firstEmployee'));
-//        return view('welcome', ['firstEmployee' => $firstEmployee]);
+        return view('welcome', compact('firstLevelEmployee'));
+    }
+
+    public function fetchChildren ($dbId)
+    {
+
+        $children = Employee::find($dbId)->children()->get();
+
+        return response($children, 200);
+
     }
 }

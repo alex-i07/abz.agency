@@ -16,7 +16,9 @@
 
                 <div class="panel-body">
 
-                    <div id="tree"></div>
+                    {{--<div id="tree"></div>--}}
+
+                    <table id="tree" class=""><thead><tr><th width="100%">Name</th></tr></thead></table> </div>
 
                 </div>
 

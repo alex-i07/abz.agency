@@ -12,6 +12,9 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+
+    <link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.css" />
+
 </head>
 <body>
     <div id="app">

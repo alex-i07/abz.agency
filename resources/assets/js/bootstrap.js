@@ -37,9 +37,15 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-require('../../../node_modules/bootstrap-treeview/src/js/bootstrap-treeview.js');
+// require('../../../node_modules/bootstrap-treeview/src/js/bootstrap-treeview.js');
 
-require('./components/welcome');
+// require('patternfly-bootstrap-treeview');
+
+require('https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.min.js');
+
+require('./components/main-page');
+
+// require('./components/welcome');
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
