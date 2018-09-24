@@ -1,9 +1,26 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Lora:300,400,600");
 
 // Variables
 @import "variables";
 
 // Bootstrap
 @import "~bootstrap-sass/assets/stylesheets/bootstrap";
+
+@import "~jstree/dist/themes/default/style.css";
+
+
+.jstree-node {
+  margin: 0.5em;
+  font-size: larger;  //рекурсивно увеличивается шрифт. ЩИТО?
+}
+
+
+.jstree-anchor {
+
+}
+
+.jstree-anchor span {
+
+}

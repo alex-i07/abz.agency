@@ -41,12 +41,23 @@ if (token) {
 
 // require('patternfly-bootstrap-treeview');
 
-require('https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.min.js');
+// require('https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.min.js');
+// require ('./components/gtreetable');
 
-require('./components/main-page');
+// require('./components/main-page');
 
 // require('./components/welcome');
 
+// require ('jstree');
+
+// require('jstree')($);
+// require('jstree');
+//
+require('./components/jstree');
+
+// $(document).ready(function() {
+//     console.log('FROM COMPONENTS');
+// });
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

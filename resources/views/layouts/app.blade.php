@@ -13,7 +13,11 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-    <link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.css" />
+    {{--<link rel="stylesheet" type="text/css" href="https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.css" />--}}
+
+    {{--<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.2.1/themes/default/style.min.css" />--}}
+
+    {{--<link rel="stylesheet" href="../../../node_modules/jstree/dist/themes/default-dark/style.css" />--}}
 
 </head>
 <body>

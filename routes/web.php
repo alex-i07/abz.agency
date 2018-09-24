@@ -17,7 +17,9 @@
 
 Route::get('/', 'PageController@mainPage');
 
-Route::get('fetch-children/{dbId}', 'PageController@fetchChildren');
+Route::get('fetch-children/{id}', 'PageController@fetchChildren');
+
+Route::get('fetch-roots', 'PageController@fetchRoots');
 
 Auth::routes();
 
