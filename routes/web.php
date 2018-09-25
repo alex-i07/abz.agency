@@ -17,9 +17,13 @@
 
 Route::get('/', 'PageController@mainPage');
 
-Route::get('fetch-children/{id}', 'PageController@fetchChildren');
+Route::get('guest-fetch-roots', 'PageController@fetchRoots');
 
-Route::get('fetch-roots', 'PageController@fetchRoots');
+Route::get('guest-fetch-children/{id}', 'PageController@fetchChildren');
+
+Route::get('auth-fetch-roots', 'HomeController@fetchRoots');
+
+Route::get('auth-fetch-children/{id}', 'HomeController@fetchChildren');
 
 Auth::routes();
 

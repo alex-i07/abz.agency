@@ -73,9 +73,15 @@ class PageController extends Controller
         $subordinates = $collection->map(function ($item, $key) {
             return ['id' => $item->id,
                     'parent' => $item->parent_id,
-                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
+                    'name' => $item->name,
+                    'position' => $item->position,
+                    'date_of_employment' => $item->date_of_employment,
+                    'salary' => $item->salary,
+                    'text' => null,
+//                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
                     'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
                     'hierarchyLevel' => $item-> hierarchy_level,
+                    'icon' => 'glyphicon glyphicon-user',
                     'state' => [
                         'opened' => false,
                         'disabled' => false,
@@ -97,14 +103,18 @@ class PageController extends Controller
 
         $collection = Employee::where ('hierarchy_level', '=', 1)->get();
 
-
         $firstLevelEmployees = $collection->map(function ($item, $key) {
             return ['id' => $item->id,
                     'parent' => '#',
-                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
+                    'name' => $item->name,
+                    'position' => $item->position,
+                    'date_of_employment' => $item->date_of_employment,
+                    'salary' => $item->salary,
+                    'text' => null,
+//                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
                     'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
                     'hierarchyLevel' => $item-> hierarchy_level,
-                    'icon' => false,
+                    'icon' => 'glyphicon glyphicon-user',
                     'state' => [
                         'opened' => false,
                         'disabled' => false,

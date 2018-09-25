@@ -10,13 +10,27 @@
 
                 <div class="panel-heading">
 
-                    <span>Список сотрудников:</span>
+                    <h4>Список сотрудников:</h4>
 
                 </div>
 
                 <div class="panel-body">
 
-                    <div id="jstree_demo_div"></div>
+                    {{--<table class="table">--}}
+                        {{--<thead>--}}
+                        {{--<tr>--}}
+                            {{--<th>Name</th>--}}
+                            {{--<th>Position</th>--}}
+                            {{--<th>Date of employment</th>--}}
+                            {{--<th>Salary</th>--}}
+                        {{--</tr>--}}
+                        {{--</thead>--}}
+
+
+                    <div id="jstree_quest"></div>
+
+
+                    {{--</table>--}}
 
                     {{--<div id="tree"></div>--}}
 

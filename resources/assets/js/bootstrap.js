@@ -53,7 +53,9 @@ if (token) {
 // require('jstree')($);
 // require('jstree');
 //
-require('./components/jstree');
+require('./components/jstree_quest');
+
+require('./components/jstree_auth');
 
 // $(document).ready(function() {
 //     console.log('FROM COMPONENTS');

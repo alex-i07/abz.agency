@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Lora:300,400,600);/* jsTree default theme */
+@import url(https://fonts.googleapis.com/css?family=Lora);/* jsTree default theme */
 .jstree-node,
 .jstree-children,
 .jstree-container-ul {
@@ -9474,8 +9474,71 @@ button.close {
   }
 }
 
-.jstree-node {
+.custom-navbar {
+  min-height: 5rem;
+  background-color: #563d7c !important;
+  -webkit-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+          box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05), inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+}
+
+.custom-navbar .navbar-brand {
+  font-family: "Open Sans", sans-serif;
+  font-size: 2rem;
+  color: #fff;
+}
+
+.custom-navbar .nav-link:hover,
+.custom-navbar .nav-link:focus {
+  color: #fff !important;
+  font-size: 1.5rem;
+}
+
+.custom-navbar .custom-dropdown,
+.custom-navbar .custom-dropdown {
+  text-decoration: none;
+  background-color: #563d7c !important;
+}
+
+.custom-navbar .custom-dropdown:hover,
+.custom-navbar .custom-dropdown:focus {
+  background-color: #563d7c !important;
+  color: #fff;
+}
+
+a {
+  cursor: pointer;
+}
+
+.jstree-anchor {
+  width: 95%;
+}
+
+.jstree-anchor .record {
   margin: 0.5em;
   font-size: larger;
+}
+
+.jstree-anchor .record .name {
+  width: 50%;
+  margin: 0 auto  0 auto;
+}
+
+.jstree-anchor .record .position {
+  width: 16%;
+  margin: 0 auto  0 auto;
+}
+
+.jstree-anchor .record .date_of_employment {
+  width: 16%;
+  margin: 0 auto  0 auto;
+}
+
+.jstree-anchor .record .salary {
+  width: 16%;
+  margin: 0 auto  0 auto;
+}
+
+.jstree-anchor .badge {
+  float: right;
 }
 

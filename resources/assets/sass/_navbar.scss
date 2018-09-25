@@ -1,0 +1,33 @@
+.custom-navbar  {
+  min-height:5rem;
+  background-color:#563d7c !important;
+  box-shadow:0 0.5rem 1rem rgba(0,0,0,.05),inset 0 -1px 0 rgba(0,0,0,.1);
+
+  .navbar-brand {
+    font-family: "Open Sans", sans-serif;
+    font-size: 2rem;
+    color: #fff;
+  }
+
+  .nav-link:hover, .nav-link:focus {
+    color: #fff !important;
+    font-size: 1.5rem;
+  }
+
+  .custom-dropdown, .custom-dropdown {
+    text-decoration:none;
+    background-color:#563d7c !important;
+  }
+
+  .custom-dropdown:hover, .custom-dropdown:focus {
+    //color: #c25fe2;
+    //background-color: #fff;
+    background-color: #563d7c !important;
+    color: #fff;
+
+    //a:hover, a:focus {
+    //  background-color: #563d7c;
+    //  color: #fff;
+    //}
+  }
+}

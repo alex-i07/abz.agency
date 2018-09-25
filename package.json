@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "jstree": "^3.3.5",
-    "patternfly-bootstrap-treeview": "^2.1.5",
+    "moment": "^2.22.2",
     "sweetalert": "^2.1.0"
   }
 }

@@ -1,4 +1,40 @@
+{{--<div class="container text-center text-md-left">--}}
 
+    {{--<div class="row">--}}
+
+        {{--<div class="col-md-6 mx-auto">--}}
+
+            {{--<p>Designed using <a href="https://laravel.com/" target="_blank">Laravel 5.4</a></p>--}}
+
+        {{--</div>--}}
+
+        {{--<hr class="clearfix w-100 d-md-none">--}}
+
+        {{--<div class="col-md-6 mx-auto">--}}
+
+            {{--<dl class="list-unstyled">--}}
+                {{--<dt>--}}
+                    {{--Also was used:--}}
+                {{--</dt>--}}
+                {{--<dd>--}}
+                    {{--<a href="https://www.jstree.com/" target="_blank">jstree</a>--}}
+                {{--</dd>--}}
+                {{--<dd>--}}
+                    {{--<a href="https://getbootstrap.com/docs/3.3/getting-started/" target="_blank">Bootstrap 3</a>--}}
+                {{--</dd>--}}
+                {{--<dd>--}}
+                    {{--<a href="https://momentjs.com/" target="_blank">Moment.js</a>--}}
+                {{--</dd>--}}
+                {{--<dd>--}}
+                    {{--<a href="https://sweetalert.js.org/" target="_blank">SweetAlert</a>--}}
+                {{--</dd>--}}
+            {{--</dl>--}}
+
+                {{--<hr class="clearfix w-100 d-md-none">--}}
+
+        {{--</div>--}}
+    {{--</div>--}}
+{{--</div>--}}
 <!-- Scripts -->
 
 {{--<script type="text/javascript" src="https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.min.js"></script>--}}

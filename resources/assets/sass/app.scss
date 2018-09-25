@@ -1,6 +1,7 @@
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Lora:300,400,600");
+//@import url("https://fonts.googleapis.com/css?family=Railway:300,400,600");
+@import url('https://fonts.googleapis.com/css?family=Lora');
 
 // Variables
 @import "variables";
@@ -10,11 +11,46 @@
 
 @import "~jstree/dist/themes/default/style.css";
 
+@import "navbar";
 
-.jstree-node {
-  margin: 0.5em;
-  font-size: larger;  //рекурсивно увеличивается шрифт. ЩИТО?
+@import "home";
+
+//@import "footer";
+
+.jstree-anchor {
+  width: 95%;
+
+  .record {
+    margin: 0.5em;
+    font-size: larger;  //рекурсивно увеличивается шрифт. ЩИТО?
+    //display: inline-block;
+
+    .name {
+      width: 50%;
+      margin: 0 auto  0 auto;
+    }
+
+    .position {
+      width: 16%;
+      margin: 0 auto  0 auto;
+    }
+
+    .date_of_employment {
+      width: 16%;
+      margin: 0 auto  0 auto;
+    }
+
+    .salary {
+      width: 16%;
+      margin: 0 auto  0 auto;
+    }
+  }
+  .badge {
+    float: right;
+  }
 }
+
+
 
 
 .jstree-anchor {
