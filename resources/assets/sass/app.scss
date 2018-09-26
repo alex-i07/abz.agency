@@ -17,37 +17,8 @@
 
 //@import "footer";
 
-.jstree-anchor {
-  width: 95%;
-
-  .record {
-    margin: 0.5em;
-    font-size: larger;  //рекурсивно увеличивается шрифт. ЩИТО?
-    //display: inline-block;
-
-    .name {
-      width: 50%;
-      margin: 0 auto  0 auto;
-    }
-
-    .position {
-      width: 16%;
-      margin: 0 auto  0 auto;
-    }
-
-    .date_of_employment {
-      width: 16%;
-      margin: 0 auto  0 auto;
-    }
-
-    .salary {
-      width: 16%;
-      margin: 0 auto  0 auto;
-    }
-  }
-  .badge {
-    float: right;
-  }
+body {
+  font-family: "Lora", sans-serif;
 }
 
 

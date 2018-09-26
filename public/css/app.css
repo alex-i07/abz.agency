@@ -9505,8 +9505,20 @@ button.close {
   color: #fff;
 }
 
-a {
-  cursor: pointer;
+.sort-link {
+  font-size: larger;
+}
+
+.sort-link i {
+  opacity: 0;
+}
+
+#name-i {
+  opacity: 1;
+}
+
+hr {
+  margin-top: 0;
 }
 
 .jstree-anchor {
@@ -9518,27 +9530,23 @@ a {
   font-size: larger;
 }
 
-.jstree-anchor .record .name {
-  width: 50%;
-  margin: 0 auto  0 auto;
+.jstree-anchor .record.name {
+  margin-right: 180px;
 }
 
-.jstree-anchor .record .position {
-  width: 16%;
-  margin: 0 auto  0 auto;
+.jstree-anchor .record.position {
+  margin-right: 80px;
 }
 
-.jstree-anchor .record .date_of_employment {
-  width: 16%;
-  margin: 0 auto  0 auto;
-}
-
-.jstree-anchor .record .salary {
-  width: 16%;
-  margin: 0 auto  0 auto;
+.jstree-anchor .record.date_of_employment {
+  margin-right: 80px;
 }
 
 .jstree-anchor .badge {
   float: right;
+}
+
+body {
+  font-family: "Lora", sans-serif;
 }
 

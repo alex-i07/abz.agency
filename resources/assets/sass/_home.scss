@@ -1,3 +1,59 @@
-a  {
-  cursor: pointer;
+//a  {
+//  cursor: pointer;
+//}
+
+//.sort-link i:not(:first-child) {
+//  opacity: 0;
+//}
+
+.sort-link {
+  font-size: larger;
+
+  i {
+    opacity: 0;
+  }
+}
+
+#name-i {
+  opacity: 1;
+}
+
+hr {
+  margin-top: 0;
+}
+
+.jstree-wholerow {
+
+}
+
+.jstree-anchor {
+  width: 95%;
+
+  .record {
+    margin: 0.5em;
+    font-size: larger;  //рекурсивно увеличивается шрифт. ЩИТО?
+    //display: inline-block;
+
+    &.name {
+      //width: 50%;
+      margin-right: 180px;
+    }
+
+    &.position {
+      //width: 16%;
+      margin-right: 80px;
+    }
+
+    &.date_of_employment {
+      //width: 16%;
+      margin-right: 80px;
+    }
+
+    &.salary {
+      //width: 16%;
+    }
+  }
+  .badge {
+    float: right;
+  }
 }
