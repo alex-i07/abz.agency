@@ -19,13 +19,13 @@ class AppServiceProvider extends ServiceProvider
          * Show me sql queries
          */
 
-//        DB::listen(function ($query) {
-//            var_dump([
-//                $query->sql
-////                $query->bindings,
-////                $query->time
-//            ]);
-//        });
+        DB::listen(function ($query) {
+            var_dump([
+                $query->sql
+//                $query->bindings,
+//                $query->time
+            ]);
+        });
     }
 
     /**

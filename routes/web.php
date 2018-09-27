@@ -28,3 +28,5 @@ Route::get('auth-fetch-children/{id}', 'HomeController@fetchChildren');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('search', 'HomeController@search');

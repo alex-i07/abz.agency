@@ -186,7 +186,7 @@ $( document ).ready(function() {
         });
 
         $('#jstree_auth').jstree({
-            'plugins' : [ 'sort', 'wholerow' ],
+            'plugins' : [ 'sort', 'search', 'wholerow' ],
             'core': {
                 'themes': {
                     'responsive': true,
@@ -195,7 +195,7 @@ $( document ).ready(function() {
                 },
                 'data': {
                     'url': function (node) {
-                        console.log('NODE', node);
+                        // console.log('NODE', node);
 
                         // console.log(this.get_node(node));
                         //
@@ -228,8 +228,8 @@ $( document ).ready(function() {
                     }
                 }
             },
-            'sort' : function(a, b, sortItem, order) {
-                console.log(order, typeof order, sortItem, typeof sortItem, 'ORDER2');
+            'sort' : function(a, b) {
+
 
                 window.sortItem = window.sortItem || 'name';
 
@@ -246,7 +246,7 @@ $( document ).ready(function() {
                 var a1 = this.get_node(a);
                 var b1 = this.get_node(b);
                 console.log(window.order, typeof window.order, window.sortItem, typeof window.sortItem, 'ORDER3');
-                console.log(a1, b1, 'a1, b1 from sort function');
+                // console.log(a1, b1, 'a1, b1 from sort function');
 
                 if (window.sortItem === 'salary') {
                     var cmp1 = Number(a1.original[window.sortItem]);
@@ -285,6 +285,14 @@ $( document ).ready(function() {
                 // else if (window.order === 'desc') {
                 //     return (a1[window.sortItem] > b1[window.sortItem]) ? 1 : -1;
                 // }
+            },
+            'search': {
+                'ajax': {
+                    'url': '/search',
+                    'dataType': 'json',
+                    'type': 'GET',
+                    // 'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]')
+                }
             }
         });
         // $.jstree.defaults.plugins.push("sort");
@@ -303,6 +311,22 @@ $( document ).ready(function() {
         //     // }
         //     // return -1;
         // }
+console.log(document.head.querySelector('meta[name="csrf-token"]'));
+        var to = false;
+        $('#search').keyup(function () {
+            if(to) { clearTimeout(to); }
+            to = setTimeout(function () {
+                var v = $('#search').val();
+
+                if (moment(v, 'DD/MM/YYYY').isValid()){
+                    console.log(v);
+                    v = moment(v).format("YYYY-MM-DD");
+                    console.log(v);
+                }
+
+                $('#jstree_auth').jstree(true).search(v);
+            }, 500);
+        });
 
     });
 });

@@ -5,9 +5,15 @@
     <div class="row">
 
         <div class="panel panel-info">
-            <div class="panel-heading">
+            <div class="panel-heading row margin-none">
 
-                <h4>Список сотрудников:</h4>
+                <div class="col-sm-4">
+                    <h4>Список сотрудников:</h4>
+                </div>
+
+                <div class="form-group col-sm-4 col-md-offset-4">
+                    <input type="text" class="form-control" id="search" placeholder="Search here">
+                </div>
 
             </div>
 
