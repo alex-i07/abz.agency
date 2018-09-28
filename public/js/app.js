@@ -57650,7 +57650,9 @@ $(document).ready(function () {
                                                                         // console.log(data, typeof data);
 
                                                                         data.forEach(function (value) {
-                                                                                    value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                                                                                    value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' +
+                                                                                    // '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
+                                                                                    '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                                                                         });
                                                             },
                                                             'error': function error(_error) {
@@ -57752,11 +57754,11 @@ $(document).ready(function () {
                                     to = setTimeout(function () {
                                                 var v = $('#search').val();
 
-                                                if (__WEBPACK_IMPORTED_MODULE_0_moment___default()(v, 'DD/MM/YYYY').isValid()) {
-                                                            console.log(v);
-                                                            v = __WEBPACK_IMPORTED_MODULE_0_moment___default()(v).format("YYYY-MM-DD");
-                                                            console.log(v);
-                                                }
+                                                // if (moment(v, 'DD.MM.YYYY').isValid()){
+                                                //     console.log(v);
+                                                //     v = moment(v).format("DD.MM.YYYY");
+                                                //     console.log(v);    //Invalid date always
+                                                // }
 
                                                 $('#jstree_auth').jstree(true).search(v);
                                     }, 500);

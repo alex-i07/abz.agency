@@ -301,7 +301,7 @@ $factory->define(Employee::class, function (Faker\Generator $faker){
         'email' => $faker->unique()->safeEmail,
         'password' => $password ?: $password = bcrypt('123456'),
         'position' => $faker->jobTitle,
-        'date_of_employment' => $faker->date($format = 'Y-m-d', $max = 'now'),
+        'date_of_employment' => $faker->date($format = 'd.m.Y', $max = 'now'),
         'salary' => 0,
         'remember_token' => str_random(60),
     ];

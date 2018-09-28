@@ -21,7 +21,7 @@ class CreateEmployeesTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('position');
-            $table->date('date_of_employment');
+            $table->string('date_of_employment');
             $table->string('salary');
             $table->rememberToken();
             $table->timestamps();

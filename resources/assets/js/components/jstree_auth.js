@@ -211,7 +211,8 @@ $( document ).ready(function() {
                         data.forEach(function (value) {
                             value.text = '<span class="record name">' + value.name + '</span>' +
                                 '<span class="record position">' + value.position + '</span>' +
-                                '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
+                                // '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
+                                '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
                                 '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                 '<span class="badge">' + value.childrenNumber + '</span>';
                         })
@@ -318,11 +319,11 @@ console.log(document.head.querySelector('meta[name="csrf-token"]'));
             to = setTimeout(function () {
                 var v = $('#search').val();
 
-                if (moment(v, 'DD/MM/YYYY').isValid()){
-                    console.log(v);
-                    v = moment(v).format("YYYY-MM-DD");
-                    console.log(v);
-                }
+                // if (moment(v, 'DD.MM.YYYY').isValid()){
+                //     console.log(v);
+                //     v = moment(v).format("DD.MM.YYYY");
+                //     console.log(v);    //Invalid date always
+                // }
 
                 $('#jstree_auth').jstree(true).search(v);
             }, 500);

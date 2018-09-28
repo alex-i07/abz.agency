@@ -97,26 +97,110 @@ class HomeController extends Controller
     {
         $str = $request->str;
 
-//        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
+//        $result = [ 'id' => 8,
+//                    'parent' => 0,
+//                   'name' => 'Борисова Анфиса Евгеньевна',
+//                   'position' => 'Лингвист',
+//                   'date_of_employment' => '1990-12-12',
+//                   'salary' => '94691',
+//                   'text' => 'Фокин Иннокентий Владимирович123',
+//                   'childrenNumber' => 3,
+//                   'hierarchyLevel' => 1,
+//                   'icon' => 'glyphicon glyphicon-user',
+//                   'state' => [
+//                       'opened' => false,
+//                       'disabled' => false,
+//                       'selected' => false,
+//                   ],
+//                   'li_attr' => [],
+//                   'a_attr' => [],
+//                    'children' => [],
+//                   ];
+//
+//        return response([8, 20], 200);
+
+        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
+            ->where('date_of_employment', 'LIKE', ['%' . $str . '%'])
+//            ->where('date_of_employment LIKE ?', ['%' . $str . '%'])
+            ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
+            ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
+            ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])
+            ->get();
+
+//        $ids = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
 ////            ->where('date_of_employment', $str)
 //            ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
 //            ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
 //            ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])
-//            ->get();
+//            ->get()->pluck('id');
 
-        $ids = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
-//            ->where('date_of_employment', $str)
-            ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
-            ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
-            ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])
-            ->get()->pluck('id');
-
-        $result = collect([]);
-
-        foreach($ids as $id) {
-
-            $result->push($this->getAllParents($id));
+        if($collection->isEmpty()){
+            return response('No records found', 200);
         }
+//dd($collection);
+        $allParents = collect([]);
+
+        $allParentIds = collect([]);
+
+        foreach($collection as $value){
+
+//            $value = $this->format($value);
+
+//            $allParents->push($value);
+//dd($value);
+            $currentParentId = $value->parent_id;
+//
+//            $maxParentId = $currentParentId;
+
+
+
+            while($currentParentId > 0) {
+
+                $parent = DB::table('employees')->select('id', 'parent_id')->where('id', $currentParentId)->first();
+//dd($parent);
+
+
+                $allParentIds->prepend($parent->id);
+
+//                $tmp = []; $tmp[] = $parent->id;
+//dd($tmp);
+                $currentParentId = $parent->parent_id;
+
+
+
+//                $parent = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('id', $currentParentId)->first();
+
+//                $formattedParent = $this->format($parent);
+
+//                $allParents->push($formattedParent);
+//
+//                $currentParentId = $formattedParent['parent'];
+//
+//                if ($maxParentId < $currentParentId){
+//                    $maxParentId = $currentParentId;
+//                }
+            }
+
+
+
+        }
+//        dd($allParentIds);
+        $result = $allParentIds->unique();
+
+//        dd(array_values($result->toArray()));
+
+        $result = array_values($result->toArray());
+
+//        var_dump($result); exit();
+
+//        $allParents = $allParents->unique('id');
+////        dd($allParents, $maxParentId);
+//        $result = $this->makeTree($allParents->toArray(), $maxParentId);
+//        dd($result);
+//        foreach($ids as $id) {
+//
+//            $result->push($this->getAllParents($id));
+//        }
 
         return response($result, 200);
 
@@ -151,87 +235,77 @@ class HomeController extends Controller
 
     }
 
-    protected function getAllParents($id)
+    protected function format($parent)
     {
-//        foreach ($ids as $key => $value){
+        return collect([
+            'id' => $parent->id,
+            'parent' => $parent->parent_id,
+            'name' => $parent->name,
+            'position' => $parent->position,
+            'date_of_employment' => $parent->date_of_employment,
+            'salary' => $parent->salary,
+            'text' => '123',
+            'childrenNumber' => $childrenNumber = Employee::find($parent->id)->children()->count(),
+            'hierarchyLevel' => $parent-> hierarchy_level,
+            'icon' => 'glyphicon glyphicon-user',
+            'state' => [
+                'opened' => false,
+                'disabled' => false,
+                'selected' => false,
+            ],
+            'li_attr' => [],
+            'a_attr' => [],
+        ]);
+    }
 
-//        $child = Employee::find($id);
+    protected function makeTree (array $allParents, $maxParentId = 0)
+    {
 
-        $child = Employee::where('id', $id)->get();
+        $array = array_combine(array_column($allParents, 'id'), array_values($allParents));
 
-            function getParent($child){
-
-//                $child = Employee::find($value);
-
-                $parent = $child[0]->parent()->get();
-
-                $formattedChild = $child->map(function ($item, $key){
-                    return ['id' => $item->id,
-                            'parent' => $item->parent_id,
-                            'name' => $item->name,
-                            'position' => $item->position,
-                            'date_of_employment' => $item->date_of_employment,
-                            'salary' => $item->salary,
-                            'text' => null,
-//                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
-                            'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
-                            'hierarchyLevel' => $item-> hierarchy_level,
-                            'icon' => 'glyphicon glyphicon-user',
-                            'state' => [
-                                'opened' => false,
-                                'disabled' => false,
-                                'selected' => false,
-                            ],
-                            'li_attr' => [],
-                            'a_attr' => [],
-                            'children' => $childrenNumber === 0 ? false : true
-                    ];
-
-                });
-
-                $formattedParent = $parent->map(function ($item, $key) use($formattedChild){
-                    return ['id' => $item->id,
-                            'parent' => $item->parent_id,
-                            'name' => $item->name,
-                            'position' => $item->position,
-                            'date_of_employment' => $item->date_of_employment,
-                            'salary' => $item->salary,
-                            'text' => null,
-//                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
-                            'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
-                            'hierarchyLevel' => $item-> hierarchy_level,
-                            'icon' => 'glyphicon glyphicon-user',
-                            'state' => [
-                                'opened' => false,
-                                'disabled' => false,
-                                'selected' => false,
-                            ],
-                            'li_attr' => [],
-                            'a_attr' => [],
-                            'children' => $formattedChild,
-                    ];
-
-                });
-//dd($formattedParent);
-                if ($formattedParent->parent > 0){
-                    getParent( $formattedParent);
-                }
-
-                    return $formattedParent;
-
+        foreach ($array as $k => &$v) {
+            if (isset($array[$v['parent']])) {
+                $array[$v['parent']]['children'][] = &$v;
             }
+            unset($v);
+        }
 
-        $allParents = getParent($child);
-            return $allParents;
+//        dd($array);
 
-//            $child = Employee::find($value);
+        return array_filter($array, function($v) use ($maxParentId) {
+            return $v['parent'] == $maxParentId;
+        });
+
+    }
+
+//    protected function getAllParents($ids)
+//    {
 //
-//            $parent = $child->parent()->get();
+//        $allParents = [];
 //
-//            $child = $child->get();
+//        foreach($ids as $id) {
 //
-//            $formattedChild = (function ($child) {
-//                $tmp = $child->map(function ($item, $key){
+//        }
+//
+//
+//
+//
+//
+//
+//
+////        foreach ($ids as $key => $value){
+//
+////        $child = Employee::find($id);
+//
+//        $child = Employee::where('id', $id)->get();
+//
+//            function getParent($child){
+//
+////                $child = Employee::find($value);
+//
+//                $parent = $child[0]->parent()->get();
+//
+//                $formattedChild = $child->map(function ($item, $key){
 //                    return ['id' => $item->id,
 //                            'parent' => $item->parent_id,
 //                            'name' => $item->name,
@@ -250,39 +324,105 @@ class HomeController extends Controller
 //                            ],
 //                            'li_attr' => [],
 //                            'a_attr' => [],
-//                            'children' => false
+//                            'children' => $childrenNumber === 0 ? false : true
 //                    ];
 //
 //                });
 //
-//                return $tmp;
-//            });
-//
-//            $tmp = $parent->map(function ($item, $key) use($formattedChild){
-//                return ['id' => $item->id,
-//                        'parent' => $item->parent_id,
-//                        'name' => $item->name,
-//                        'position' => $item->position,
-//                        'date_of_employment' => $item->date_of_employment,
-//                        'salary' => $item->salary,
-//                        'text' => null,
+//                $formattedParent = $parent->map(function ($item, $key) use($formattedChild){
+//                    return ['id' => $item->id,
+//                            'parent' => $item->parent_id,
+//                            'name' => $item->name,
+//                            'position' => $item->position,
+//                            'date_of_employment' => $item->date_of_employment,
+//                            'salary' => $item->salary,
+//                            'text' => null,
 ////                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
-//                        'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
-//                        'hierarchyLevel' => $item-> hierarchy_level,
-//                        'icon' => 'glyphicon glyphicon-user',
-//                        'state' => [
-//                            'opened' => false,
-//                            'disabled' => false,
-//                            'selected' => false,
-//                        ],
-//                        'li_attr' => [],
-//                        'a_attr' => [],
-//                        'children' => $formattedChild,
-//                ];
+//                            'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
+//                            'hierarchyLevel' => $item-> hierarchy_level,
+//                            'icon' => 'glyphicon glyphicon-user',
+//                            'state' => [
+//                                'opened' => false,
+//                                'disabled' => false,
+//                                'selected' => false,
+//                            ],
+//                            'li_attr' => [],
+//                            'a_attr' => [],
+//                            'children' => $formattedChild,
+//                    ];
 //
-//            });
-//        }
-
-
-    }
+//                });
+////dd($formattedParent);
+//                if ($formattedParent->parent > 0){
+//                    getParent( $formattedParent);
+//                }
+//
+//                    return $formattedParent;
+//
+//            }
+//
+//        $allParents = getParent($child);
+//            return $allParents;
+//
+////            $child = Employee::find($value);
+////
+////            $parent = $child->parent()->get();
+////
+////            $child = $child->get();
+////
+////            $formattedChild = (function ($child) {
+////                $tmp = $child->map(function ($item, $key){
+////                    return ['id' => $item->id,
+////                            'parent' => $item->parent_id,
+////                            'name' => $item->name,
+////                            'position' => $item->position,
+////                            'date_of_employment' => $item->date_of_employment,
+////                            'salary' => $item->salary,
+////                            'text' => null,
+//////                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
+////                            'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
+////                            'hierarchyLevel' => $item-> hierarchy_level,
+////                            'icon' => 'glyphicon glyphicon-user',
+////                            'state' => [
+////                                'opened' => false,
+////                                'disabled' => false,
+////                                'selected' => false,
+////                            ],
+////                            'li_attr' => [],
+////                            'a_attr' => [],
+////                            'children' => false
+////                    ];
+////
+////                });
+////
+////                return $tmp;
+////            });
+////
+////            $tmp = $parent->map(function ($item, $key) use($formattedChild){
+////                return ['id' => $item->id,
+////                        'parent' => $item->parent_id,
+////                        'name' => $item->name,
+////                        'position' => $item->position,
+////                        'date_of_employment' => $item->date_of_employment,
+////                        'salary' => $item->salary,
+////                        'text' => null,
+//////                    'text' => '<span>' . $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary . '</span>',
+////                        'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
+////                        'hierarchyLevel' => $item-> hierarchy_level,
+////                        'icon' => 'glyphicon glyphicon-user',
+////                        'state' => [
+////                            'opened' => false,
+////                            'disabled' => false,
+////                            'selected' => false,
+////                        ],
+////                        'li_attr' => [],
+////                        'a_attr' => [],
+////                        'children' => $formattedChild,
+////                ];
+////
+////            });
+////        }
+//
+//
+//    }
 }
