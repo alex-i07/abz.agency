@@ -57,6 +57,8 @@ require('./components/jstree_quest');
 
 require('./components/jstree_auth');
 
+require('.componentns/about');
+
 // $(document).ready(function() {
 //     console.log('FROM COMPONENTS');
 // });

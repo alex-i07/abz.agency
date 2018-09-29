@@ -9551,6 +9551,10 @@ hr {
   float: right;
 }
 
+.input-group {
+  margin: 20px 0;
+}
+
 body {
   font-family: "Lora", sans-serif;
 }

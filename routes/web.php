@@ -15,18 +15,28 @@
 //    return view('welcome');
 //});
 
+/**
+ * Routes for non-authorized user
+ */
+
 Route::get('/', 'PageController@mainPage');
 
 Route::get('guest-fetch-roots', 'PageController@fetchRoots');
 
 Route::get('guest-fetch-children/{id}', 'PageController@fetchChildren');
 
+/**
+ * Routes for non-authorized user
+ */
+
+Auth::routes();
+
 Route::get('auth-fetch-roots', 'HomeController@fetchRoots');
 
 Route::get('auth-fetch-children/{id}', 'HomeController@fetchChildren');
 
-Auth::routes();
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('search', 'HomeController@search');
+
+Route::get('about/{id}', 'HomeController@about');

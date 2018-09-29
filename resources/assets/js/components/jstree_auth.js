@@ -209,7 +209,7 @@ $( document ).ready(function() {
                         // console.log(data, typeof data);
 
                         data.forEach(function (value) {
-                            value.text = '<span class="record name">' + value.name + '</span>' +
+                            value.text = '<a href="about/' + value.id + '" class="record name">' + value.name + '</a>' +
                                 '<span class="record position">' + value.position + '</span>' +
                                 // '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
                                 '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +

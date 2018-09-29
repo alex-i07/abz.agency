@@ -235,6 +235,30 @@ class HomeController extends Controller
 
     }
 
+    public function about (Request $request)
+    {
+        $id = $request->id;
+
+//        dd($id);
+
+        $employee = Employee::findOrFail($id);
+
+//        if ($employee->get()->is)
+
+        $chief = $employee->parent()->get();
+
+        if($chief->isEmpty()){
+            $chief = 'Нет начальника';
+        }
+        else {
+            $chief = $chief[0]->name;
+        }
+
+//        dd($chief);
+
+        return view ('about', compact('employee', 'chief'));
+    }
+
     protected function format($parent)
     {
         return collect([
