@@ -243,20 +243,41 @@ class HomeController extends Controller
 
         $employee = Employee::findOrFail($id);
 
-//        if ($employee->get()->is)
 
-        $chief = $employee->parent()->get();
 
-        if($chief->isEmpty()){
+        if ($employee->hierarchy_level == 1){
+//            $chiefHierarchy = $employee->hierarchy_level - 1;
+            $chiefs = ['Нет начальника'];
+
             $chief = 'Нет начальника';
         }
+
         else {
-            $chief = $chief[0]->name;
+            $chiefHierarchy = $employee->hierarchy_level - 1;
+
+            $chiefs= Employee::where('hierarchy_level', '=', $chiefHierarchy)->get()->pluck('name');
+
+            $chief = $employee->parent()->get()[0]->name;
         }
+
+
+
+//        $chiefHierarchy = $employee->hierarchy_level - 1;
+
+//        if ($employee->get()->is)
+
+
+
+//        if($chief->isEmpty()){
+//            $chief = 'Нет начальника';
+//        }
+//        else {
+//            $chief = $chief[0]->name;
+//        }
 
 //        dd($chief);
 
-        return view ('about', compact('employee', 'chief'));
+        return view ('about', compact('employee', 'chief', 'chiefs'));
     }
 
     protected function format($parent)

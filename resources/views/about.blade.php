@@ -53,7 +53,13 @@
                                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
                                             {{--<label for="name">ФИО:</label>--}}
                                             <select id="name" class="form-control" name="chief">
-                                                <option>{{$chief}}</option>
+                                                @foreach($chiefs as $value)
+                                                    @if ($value === $chief)
+                                                        <option selected>{{$value}}</option>
+                                                    @else
+                                                        <option>{{$value}}</option>
+                                                    @endif
+                                                @endforeach
                                             </select>
                                         </div>
 

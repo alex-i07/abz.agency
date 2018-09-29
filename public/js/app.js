@@ -36394,7 +36394,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(139);
-module.exports = __webpack_require__(171);
+module.exports = __webpack_require__(172);
 
 
 /***/ }),
@@ -36410,7 +36410,7 @@ module.exports = __webpack_require__(171);
 
 __webpack_require__(140);
 
-window.Vue = __webpack_require__(166);
+window.Vue = __webpack_require__(167);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -36418,7 +36418,7 @@ window.Vue = __webpack_require__(166);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(167));
+Vue.component('example', __webpack_require__(168));
 
 var app = new Vue({
   el: '#app'
@@ -36486,6 +36486,8 @@ if (token) {
 __webpack_require__(162);
 
 __webpack_require__(165);
+
+__webpack_require__(166);
 
 // $(document).ready(function() {
 //     console.log('FROM COMPONENTS');
@@ -56919,7 +56921,9 @@ $(document).ready(function () {
                         console.log(data, typeof data === 'undefined' ? 'undefined' : _typeof(data));
 
                         data.forEach(function (value) {
-                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment).format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' +
+                            // '<span class="record date_of_employment">' + moment(value.date_of_employment).format('DD.MM.YYYY')  + '</span>' +
+                            '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
                     },
                     'error': function error(_error) {
@@ -57768,6 +57772,12 @@ $(document).ready(function () {
 
 /***/ }),
 /* 166 */
+/***/ (function(module, exports) {
+
+
+
+/***/ }),
+/* 167 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68733,15 +68743,15 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(4).setImmediate))
 
 /***/ }),
-/* 167 */
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(168)
+var normalizeComponent = __webpack_require__(169)
 /* script */
-var __vue_script__ = __webpack_require__(169)
+var __vue_script__ = __webpack_require__(170)
 /* template */
-var __vue_template__ = __webpack_require__(170)
+var __vue_template__ = __webpack_require__(171)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -68780,7 +68790,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -68889,7 +68899,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -68918,7 +68928,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -68961,7 +68971,7 @@ if (false) {
 }
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
