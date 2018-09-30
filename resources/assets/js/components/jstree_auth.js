@@ -6,7 +6,7 @@ moment.locale('ru');
 
 import swal from 'sweetalert'
 
-$( document ).ready(function() {
+$(document).ready(function() {
     $(function () {
 
         $('#name').on('click', function (e) {
@@ -209,7 +209,7 @@ $( document ).ready(function() {
                         // console.log(data, typeof data);
 
                         data.forEach(function (value) {
-                            value.text = '<a href="about/' + value.id + '" class="record name">' + value.name + '</a>' +
+                            value.text = '<a href="about/' + value.id + '/edit' +'" class="record name">' + value.name + '</a>' +
                                 '<span class="record position">' + value.position + '</span>' +
                                 // '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
                                 '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +

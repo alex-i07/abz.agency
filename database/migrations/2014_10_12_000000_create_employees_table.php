@@ -16,7 +16,7 @@ class CreateEmployeesTable extends Migration
         Schema::create('employees', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('parent_id')->unsigned();
-            $table->integer('hierarchy_level');
+            $table->integer('hierarchy_level')->unsigned();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

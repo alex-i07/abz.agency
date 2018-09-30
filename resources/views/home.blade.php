@@ -9,7 +9,10 @@
 
                 <div class="col-sm-4">
                     <h4>Список сотрудников:</h4>
+                    <a href="/create-form" target="_blank">Создать нового сотрудника</a>
                 </div>
+
+
 
                 <div class="form-group col-sm-4 col-md-offset-4">
                     <input type="text" class="form-control" id="search" placeholder="Search here">

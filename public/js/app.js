@@ -36394,7 +36394,7 @@ var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(139);
-module.exports = __webpack_require__(172);
+module.exports = __webpack_require__(173);
 
 
 /***/ }),
@@ -36410,7 +36410,7 @@ module.exports = __webpack_require__(172);
 
 __webpack_require__(140);
 
-window.Vue = __webpack_require__(167);
+window.Vue = __webpack_require__(168);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -36418,7 +36418,7 @@ window.Vue = __webpack_require__(167);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-Vue.component('example', __webpack_require__(168));
+Vue.component('example', __webpack_require__(169));
 
 var app = new Vue({
   el: '#app'
@@ -36488,6 +36488,8 @@ __webpack_require__(162);
 __webpack_require__(165);
 
 __webpack_require__(166);
+
+__webpack_require__(167);
 
 // $(document).ready(function() {
 //     console.log('FROM COMPONENTS');
@@ -57654,7 +57656,7 @@ $(document).ready(function () {
                                                                         // console.log(data, typeof data);
 
                                                                         data.forEach(function (value) {
-                                                                                    value.text = '<a href="about/' + value.id + '" class="record name">' + value.name + '</a>' + '<span class="record position">' + value.position + '</span>' +
+                                                                                    value.text = '<a href="about/' + value.id + '/edit' + '" class="record name">' + value.name + '</a>' + '<span class="record position">' + value.position + '</span>' +
                                                                                     // '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
                                                                                     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                                                                         });
@@ -57774,10 +57776,81 @@ $(document).ready(function () {
 /* 166 */
 /***/ (function(module, exports) {
 
+$(document).ready(function () {
+    $('#remove-employee').on('click', function (e) {
 
+        var email = $('#email').val();
+
+        axios.post('/about/delete', { 'email': email }).then(function (response) {
+            swal("Сотрудник был успешно удалён с базы данных!", {
+                icon: "success"
+            });
+        }).catch(function (error) {
+            swal("Ошибка во время ajax-запроса!", {
+                icon: "error"
+            });
+        });
+
+        // swal({
+        //     title: "Are you sure?",
+        //     text: "Once deleted, you will not be able to recover this imaginary file!",
+        //     icon: "warning",
+        //     buttons: ['Отмена', 'Да'],
+        //     dangerMode: true
+        // })
+        // .then(function (willDelete) {
+        //     if (willDelete) {
+        //         swal("Poof! Your imaginary file has been deleted!", {
+        //             icon: "success"
+        //         });
+        //     }
+        //     else {
+        //         swal("Your imaginary file is safe!");
+        //     }
+        // });
+    });
+});
 
 /***/ }),
 /* 167 */
+/***/ (function(module, exports) {
+
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+console.log('window.chiefsPerLevel', window.chiefsPerLevel, _typeof(window.chiefsPerLevel));
+
+$(document).ready(function () {
+    var selectLevels = document.getElementById("hierarchy");
+
+    var selectChiefs = document.getElementById("chiefs");
+
+    var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
+
+    console.log(chiefsPerLevelObject);
+
+    for (index in chiefsPerLevelObject) {
+
+        console.log(index);
+        selectLevels.options[selectLevels.options.length] = new Option(index, index);
+    }
+
+    chiefsPerLevelObject[1].forEach(function (item) {
+        selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
+    });
+
+    $('#hierarchy').on('change', function (e) {
+        console.log(e.target);
+
+        $('#chiefs').empty();
+
+        chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function (item) {
+            selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
+        });
+    });
+});
+
+/***/ }),
+/* 168 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -68743,15 +68816,15 @@ module.exports = Vue;
 /* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2), __webpack_require__(4).setImmediate))
 
 /***/ }),
-/* 168 */
+/* 169 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
-var normalizeComponent = __webpack_require__(169)
+var normalizeComponent = __webpack_require__(170)
 /* script */
-var __vue_script__ = __webpack_require__(170)
+var __vue_script__ = __webpack_require__(171)
 /* template */
-var __vue_template__ = __webpack_require__(171)
+var __vue_template__ = __webpack_require__(172)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -68790,7 +68863,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 169 */
+/* 170 */
 /***/ (function(module, exports) {
 
 /* globals __VUE_SSR_CONTEXT__ */
@@ -68899,7 +68972,7 @@ module.exports = function normalizeComponent (
 
 
 /***/ }),
-/* 170 */
+/* 171 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -68928,7 +69001,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 });
 
 /***/ }),
-/* 171 */
+/* 172 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -68971,7 +69044,7 @@ if (false) {
 }
 
 /***/ }),
-/* 172 */
+/* 173 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

@@ -16,14 +16,13 @@ class Employee extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'surname',
-        'patronymic',
         'position',
         'date_of_employment',
         'salary',
         'hierarchy_level',
         'email',
         'password',
+        'parent_id'
     ];
 
     /**

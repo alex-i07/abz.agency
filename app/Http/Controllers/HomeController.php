@@ -235,7 +235,7 @@ class HomeController extends Controller
 
     }
 
-    public function about (Request $request)
+    public function aboutInfo (Request $request)
     {
         $id = $request->id;
 
@@ -247,17 +247,19 @@ class HomeController extends Controller
 
         if ($employee->hierarchy_level == 1){
 //            $chiefHierarchy = $employee->hierarchy_level - 1;
-            $chiefs = ['Нет начальника'];
+            $chiefs = serialize([
+                ['id' => '0' , 'name' => 'Нет начальника']
+            ]);
 
-            $chief = 'Нет начальника';
+//            $chief = 'Нет начальника';
         }
 
         else {
             $chiefHierarchy = $employee->hierarchy_level - 1;
 
-            $chiefs= Employee::where('hierarchy_level', '=', $chiefHierarchy)->get()->pluck('name');
+            $chiefs= serialize(Employee::where('hierarchy_level', '=', $chiefHierarchy)->get()->transform(function ($item, $key) { return ['id' => $item->id, 'name' => $item->name];}));
 
-            $chief = $employee->parent()->get()[0]->name;
+//            $chief = $employee->parent()->get()[0]->name;
         }
 
 
@@ -271,13 +273,184 @@ class HomeController extends Controller
 //        if($chief->isEmpty()){
 //            $chief = 'Нет начальника';
 //        }
-//        else {
-//            $chief = $chief[0]->name;
+//        else {           $chief = $chief[0]->name;
 //        }
 
 //        dd($chief);
 
-        return view ('about', compact('employee', 'chief', 'chiefs'));
+        return view ('about', compact('employee', 'chiefs'));
+    }
+
+    public function aboutEdit (Request $request)
+    {
+
+//        dd($request->all());
+
+        $this->validate(request(), [
+            'name' => 'required|string',
+            'email'     => 'required|email',
+            'position'     => 'required|string',
+            'date_of_employment'     => 'required|date',
+            'salary'     => 'required|numeric',
+            'parent_id'     => 'required|numeric',
+        ]);
+
+//        try {
+
+        Employee::where('email', '=', $request->email)->update([
+            'name'    => $request->name,
+            'email'    => $request->email,
+            'position'       => $request->position,
+            'date_of_employment' => $request->date_of_employment,
+            'salary' => $request->salary,
+            'parent_id' => $request->parent_id,
+        ]);
+
+
+//        $employee = Employee::where('email', '=', $request->email);
+//
+//        $employee = Employee::updateOrCreate(
+//                [
+//                    'email' => $request->email
+//                ],
+//                [
+//                    'name'    => $request->name,
+//                    'email'    => $request->email,
+//                    'position'       => $request->position,
+//                    'date_of_employment' => $request->date_of_employment,
+//                    'salary' => $request->salary,
+//                    'chief' => $request->chief,
+//                ]);
+//        }
+
+
+//catch exception
+//        catch(Exception $e) {
+//            echo 'Message: ' .$e->getMessage();
+//        }
+
+
+//        return redirect('/home');
+        return back();
+//        return response ('Your changes has been successfully submitted!', 201);
+
+
+    }
+
+    public function deleteEmployee(Request $request)
+    {
+//        dd($request->email);
+
+//        DB::table('employees')->where('email', '=', $request->email)->delete();
+
+        $employee = DB::table('employees')->where('email', '=', $request->email);
+
+        $id = DB::table('employees')->where('email', '=', $request->email)->first()->id;
+
+        $idsToRemove = collect([]);
+
+        $idsToRemove->push($id);
+
+        $ids = DB::table('employees')->where('parent_id', '=', $id)->get()->pluck('id');
+dd($ids);
+//        array_merge($idsToRemove, $ids);
+//
+//        $ids2 = DB::table('employees')->where('parent_id', '=', $ids)->get()->pluck('id');
+//call isNotEmpty() on array?! МОжно сделать проверку по уровню иерархии. Не так изящно, но...
+        
+        while($ids->isNotEmpty()){
+            $ids = DB::table('employees')->where('parent_id', '=', $ids)->get()->pluck('id')->toArray();
+
+            $idsToRemove->merge($ids)->unique();
+
+//            $idsToRemove = array_merge($idsToRemove, $ids);
+
+//            $ids2 = DB::table('employees')->where('parent_id', '=', $ids)->get()->pluck('id');
+//
+//            $idsToRemove = array_merge($idsToRemove, $ids2);
+        }
+
+        dd($idsToRemove);
+
+    }
+
+    public function createForm()
+    {
+        $hierarchyLevels = Employee::select('hierarchy_level')->distinct()->get();
+
+        $chiefsPerLevel = [1 => [['id' => 0, 'name' => 'Нет начальника']]];
+
+        $i = 2;
+
+        for ($j = 0; $j < $hierarchyLevels->count() - 1; $j++){
+
+            $hierarchyLevel = $hierarchyLevels[$j]->hierarchy_level;
+
+            $temp = Employee::where('hierarchy_level', '=', $hierarchyLevel)->get()->map(function($item) {
+                return ['id' => $item->id, 'name' => $item->name];
+            });
+//dd($temp);
+            $chiefsPerLevel[$i] = $temp;  $i++;
+
+        }
+
+//        foreach ($hierarchyLevels as $hierarchyLevel){
+//
+//            $hierarchyLevel = $hierarchyLevel->hierarchy_level;
+//
+//            $temp = Employee::where('hierarchy_level', '=', $hierarchyLevel)->get()->map(function($item) {
+//                return ['id' => $item->id, 'name' => $item->name];
+//            });
+//
+//            $chiefsPerLevel[$i] = $temp; $i++;
+//        }
+
+        $chiefsPerLevel = json_encode($chiefsPerLevel);
+
+        return view('create', compact('chiefsPerLevel'));
+    }
+
+    public function createNewEmployee (Request $request)
+    {
+
+        $this->validate($request, [
+            'name' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required|string|min:6|',
+            'position'     => 'required|string',
+
+            'date_of_employment' => 'required|date',
+            'salary'     => 'required|numeric',
+            'parent_id'     => 'required|numeric',
+            'hierarchy_level' => 'required|numeric'
+
+        ]);
+
+        $employee = new Employee;
+
+        $employee->name = $request->name;
+        $employee->email = $request->email;
+        $employee->position = $request->position;
+        $employee->date_of_employment = $request->date_of_employment;
+        $employee->salary = $request->salary;
+        $employee->parent_id = $request->parent_id;
+        $employee->hierarchy_level = $request->hierarchy_level;
+        $employee->password = bcrypt($request->password);
+
+        $employee->save();
+
+//        $employee = Employee::create([
+//            'name'    => $request->name,
+//            'email'    => $request->email,
+//            'position'       => $request->position,
+//            'date_of_employment' => $request->date_of_employment,
+//            'salary' => $request->salary,
+//            'parent_id' => $request->chief,
+//            'hierarchy_level' => $request->hierarchy_level
+//        ]);
+//dd($employee);
+//        return response ('$employee->id', 201);
+        return redirect('/about/' . $employee->id .'/edit');
     }
 
     protected function format($parent)

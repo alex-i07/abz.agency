@@ -59,6 +59,8 @@ require('./components/jstree_auth');
 
 require('./components/about');
 
+require('./components/create');
+
 // $(document).ready(function() {
 //     console.log('FROM COMPONENTS');
 // });
