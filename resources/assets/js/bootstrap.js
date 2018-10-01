@@ -37,22 +37,6 @@ if (token) {
     console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-// require('../../../node_modules/bootstrap-treeview/src/js/bootstrap-treeview.js');
-
-// require('patternfly-bootstrap-treeview');
-
-// require('https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.min.js');
-// require ('./components/gtreetable');
-
-// require('./components/main-page');
-
-// require('./components/welcome');
-
-// require ('jstree');
-
-// require('jstree')($);
-// require('jstree');
-//
 require('./components/jstree_quest');
 
 require('./components/jstree_auth');
@@ -61,9 +45,6 @@ require('./components/about');
 
 require('./components/create');
 
-// $(document).ready(function() {
-//     console.log('FROM COMPONENTS');
-// });
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

@@ -1,34 +1,41 @@
-console.log('window.chiefsPerLevel', window.chiefsPerLevel, typeof window.chiefsPerLevel);
-
 $(document).ready(function () {
     var selectLevels = document.getElementById("hierarchy");
 
     var selectChiefs = document.getElementById("chiefs");
 
-    var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
+    if (selectLevels !=null && selectChiefs !=null) {
+        console.log(window.chiefsPerLevel, typeof window.chiefsPerLevel, selectLevels, typeof selectLevels, selectChiefs, typeof selectChiefs);
 
-    console.log(chiefsPerLevelObject);
+        var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
 
-    for(index in chiefsPerLevelObject) {
+        //Let set hierarchy and chief selects
 
-        console.log(index);
-        selectLevels.options[selectLevels.options.length] = new Option(index, index);
+        for(index in chiefsPerLevelObject) {
 
-    }
+            selectLevels.options[selectLevels.options.length] = new Option(index, index);
 
-    chiefsPerLevelObject[1].forEach(function(item){
-        selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
-    });
+        }
 
-
-    
-    $('#hierarchy').on('change', function (e) {
-        console.log(e.target);
-
-        $('#chiefs').empty();
-
-        chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function(item){
+        chiefsPerLevelObject[1].forEach(function(item){
             selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
         });
-    });
+
+
+
+        $('#hierarchy').on('change', function (e) {
+
+            $('#chiefs').empty();
+
+            chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function(item){
+                selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
+            });
+        });
+    }
+
+
+
+    // if (window.chiefsPerLevel !== 'underfined'){
+    //
+    // }
+
 });

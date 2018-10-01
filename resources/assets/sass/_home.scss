@@ -1,10 +1,3 @@
-//a  {
-//  cursor: pointer;
-//}
-
-//.sort-link i:not(:first-child) {
-//  opacity: 0;
-//}
 .margin-none {
   margin-left: 0 !important;
   margin-right: 0 !important;
@@ -35,26 +28,26 @@ hr {
 
   .record {
     margin: 0.5em;
-    font-size: larger;  //рекурсивно увеличивается шрифт. ЩИТО?
-    //display: inline-block;
+    font-size: larger;
+
 
     &.name {
-      //width: 50%;
+
       margin-right: 180px;
     }
 
     &.position {
-      //width: 16%;
+
       margin-right: 80px;
     }
 
     &.date_of_employment {
-      //width: 16%;
+
       margin-right: 80px;
     }
 
     &.salary {
-      //width: 16%;
+
     }
   }
   .badge {

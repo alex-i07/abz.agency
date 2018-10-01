@@ -36467,22 +36467,6 @@ if (token) {
   console.error('CSRF token not found: https://laravel.com/docs/csrf#csrf-x-csrf-token');
 }
 
-// require('../../../node_modules/bootstrap-treeview/src/js/bootstrap-treeview.js');
-
-// require('patternfly-bootstrap-treeview');
-
-// require('https://raw.githubusercontent.com/gilek/bootstrap-gtreetable/master/dist/bootstrap-gtreetable.min.js');
-// require ('./components/gtreetable');
-
-// require('./components/main-page');
-
-// require('./components/welcome');
-
-// require ('jstree');
-
-// require('jstree')($);
-// require('jstree');
-//
 __webpack_require__(162);
 
 __webpack_require__(165);
@@ -36491,9 +36475,6 @@ __webpack_require__(166);
 
 __webpack_require__(167);
 
-// $(document).ready(function() {
-//     console.log('FROM COMPONENTS');
-// });
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -56891,8 +56872,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 __webpack_require__(13);
 
 
@@ -56913,19 +56892,13 @@ $(document).ready(function () {
                 },
                 'data': {
                     'url': function url(node) {
-                        // console.log('NODE', node);
-                        //
-                        // console.log('ID', node.id);
 
                         return node.id === '#' ? 'guest-fetch-roots' : 'guest-fetch-children/' + node.id;
                     },
                     'success': function success(data) {
-                        console.log(data, typeof data === 'undefined' ? 'undefined' : _typeof(data));
 
                         data.forEach(function (value) {
-                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' +
-                            // '<span class="record date_of_employment">' + moment(value.date_of_employment).format('DD.MM.YYYY')  + '</span>' +
-                            '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
                     },
                     'error': function error(_error) {
@@ -56943,47 +56916,6 @@ $(document).ready(function () {
             }
         });
     });
-
-    // $.jstree.defaults.core.themes.responsive = true;
-    //
-    // $.jstree.defaults.core.themes.dots = false;
-    //
-    // $.jstree.defaults.core.themes.icons = true;
-    //
-    // // $.jstree.defaults.plugins = ['sort'];
-    //
-    // $.jstree.defaults.core.data = {
-    //     'url': function (node) {
-    //         // console.log('NODE', node);
-    //         //
-    //         // console.log('ID', node.id);
-    //
-    //         return node.id === '#' ?
-    //             'fetch-roots' :
-    //             'fetch-children/' + node.id;
-    //     },
-    //     'success': function(data) {
-    //         console.log(data, typeof data);
-    //
-    //         data.forEach(function (value) {
-    //             value.text = '<span class="record name">' + value.name + '</span>' +
-    //                 '<span class="record position">' + value.position + '</span>' +
-    //                 '<span class="record date_of_employment">' + moment(value.date_of_employment).format('DD.MM.YYYY')  + '</span>' +
-    //                 '<span class="record salary">' + value.salary + 'грн' + '</span>' +
-    //                 '<span class="badge">' + value.childrenNumber + '</span>';
-    //         })
-    //     },
-    //     'error': function (error) {
-    //         swal({
-    //             title: 'An error has occurred during AJAX request!',
-    //             text: 'Please, try again later',
-    //             icon: 'error',
-    //             closeModal: false
-    //         });
-    //
-    //         console.log(error);
-    //     }
-    // };
 });
 
 /***/ }),
@@ -57457,8 +57389,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(137);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 __webpack_require__(13);
 
 
@@ -57471,25 +57401,8 @@ $(document).ready(function () {
             $(function () {
 
                         $('#name').on('click', function (e) {
-                                    console.log(e, this);
+
                                     var icon = $('#name-i');
-                                    // var className = icon.attr('class');
-
-                                    // var order;
-
-
-                                    // if (className === 'glyphicon glyphicon-chevron-down') {
-                                    //     icon.removeClass("glyphicon-chevron-down");
-                                    //     icon.addClass("glyphicon-chevron-up");
-                                    //
-                                    //     // window.order = 'desc';
-                                    // }
-                                    // else {
-                                    //     icon.removeClass("glyphicon-chevron-up");
-                                    //     icon.addClass("glyphicon-chevron-down");
-                                    //
-                                    //     // window.order = 'asc';
-                                    // }
 
                                     window.sortItem = 'name';
 
@@ -57504,54 +57417,13 @@ $(document).ready(function () {
                                     $('#position-i').css('opacity', '0');
                                     $('#date-i').css('opacity', '0');
                                     $('#salary-i').css('opacity', '0');
-                                    // console.log(order, typeof order, 'ORDER1');
-                                    //
-                                    // $.jstree.defaults.sort = function(a, b, sortItem, order) {
-                                    //     console.log(order, typeof order, sortItem, typeof sortItem, 'ORDER2');
-                                    //     if (sortItem === 'underfined') {
-                                    //         sortItem = 'text';
-                                    //     }
-                                    //
-                                    //     if (order === 'underfined') {
-                                    //         order = 'desc';
-                                    //     }
-                                    //
-                                    //     var a1 = this.get_node(a);
-                                    //     var b1 = this.get_node(b);
-                                    //     console.log(a, typeof a, b, typeof b, 'a, typeof a, b, typeof b');
-                                    //     console.log(order, typeof order, sortItem, typeof sortItem, 'ORDER3');
-                                    //     console.log(a1, b1, 'a1, b1 from sort function');
-                                    //
-                                    //     if (order === 'asc') {
-                                    //         return (a1[sortItem] < b1[sortItem]) ? 1 : -1;
-                                    //     }
-                                    //
-                                    //     else if (order === 'desc') {
-                                    //         return (a1[sortItem] > b1[sortItem]) ? 1 : -1;
-                                    //     }
-                                    // };
-                                    // console.log("MARKER", $.jstree.defaults.sort);
-
-                                    // $("#jstree_auth").jstree(true).sort($('#jstree_auth').jstree(true).get_node('8'), true);
-                                    // $("#jstree_auth").jstree(true).redraw_node($("#jstree_auth").get_node('8'), true);
 
                                     $("#jstree_auth").jstree('refresh');
                         });
 
                         $('#position').on('click', function (e) {
-                                    console.log(e, this);
+
                                     var icon = $('#position-i');
-                                    // var className = icon.attr('class');
-
-
-                                    // if (className === 'glyphicon glyphicon-chevron-down') {
-                                    //     icon.removeClass("glyphicon-chevron-down");
-                                    //     icon.addClass("glyphicon-chevron-up");
-                                    // }
-                                    // else {
-                                    //     icon.removeClass("glyphicon-chevron-up");
-                                    //     icon.addClass("glyphicon-chevron-down");
-                                    // }
 
                                     window.sortItem = 'position';
 
@@ -57571,19 +57443,8 @@ $(document).ready(function () {
                         });
 
                         $('#date').on('click', function (e) {
-                                    console.log(e, this);
+
                                     var icon = $('#date-i');
-                                    // var className = icon.attr('class');
-
-
-                                    // if (className === 'glyphicon glyphicon-chevron-down') {
-                                    //     icon.removeClass("glyphicon-chevron-down");
-                                    //     icon.addClass("glyphicon-chevron-up");
-                                    // }
-                                    // else {
-                                    //     icon.removeClass("glyphicon-chevron-up");
-                                    //     icon.addClass("glyphicon-chevron-down");
-                                    // }
 
                                     window.sortItem = 'date_of_employment';
 
@@ -57603,19 +57464,8 @@ $(document).ready(function () {
                         });
 
                         $('#salary').on('click', function (e) {
-                                    // console.log(e, this);
+
                                     var icon = $('#salary-i');
-                                    // var className = icon.attr('class');
-
-
-                                    // if (className === 'glyphicon glyphicon-chevron-down') {
-                                    //     icon.removeClass("glyphicon-chevron-down");
-                                    //     icon.addClass("glyphicon-chevron-up");
-                                    // }
-                                    // else {
-                                    //     icon.removeClass("glyphicon-chevron-up");
-                                    //     icon.addClass("glyphicon-chevron-down");
-                                    // }
 
                                     window.sortItem = 'salary';
 
@@ -57644,21 +57494,13 @@ $(document).ready(function () {
                                                 },
                                                 'data': {
                                                             'url': function url(node) {
-                                                                        // console.log('NODE', node);
-
-                                                                        // console.log(this.get_node(node));
-                                                                        //
-                                                                        // console.log('ID', node.id);
 
                                                                         return node.id === '#' ? 'auth-fetch-roots' : 'auth-fetch-children/' + node.id;
                                                             },
                                                             'success': function success(data) {
-                                                                        // console.log(data, typeof data);
 
                                                                         data.forEach(function (value) {
-                                                                                    value.text = '<a href="about/' + value.id + '/edit' + '" class="record name">' + value.name + '</a>' + '<span class="record position">' + value.position + '</span>' +
-                                                                                    // '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
-                                                                                    '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                                                                                    value.text = '<a href="about/' + value.id + '/edit' + '" class="record name">' + value.name + '</a>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                                                                         });
                                                             },
                                                             'error': function error(_error) {
@@ -57679,18 +57521,8 @@ $(document).ready(function () {
 
                                                 window.order = window.order || 'asc';
 
-                                                // if (window.sortItem === 'underfined') {
-                                                //     window.sortItem = 'text';
-                                                // }
-                                                //
-                                                // if (window.order === 'underfined') {
-                                                //     window.order = 'asc';
-                                                // }
-
                                                 var a1 = this.get_node(a);
                                                 var b1 = this.get_node(b);
-                                                console.log(window.order, _typeof(window.order), window.sortItem, _typeof(window.sortItem), 'ORDER3');
-                                                // console.log(a1, b1, 'a1, b1 from sort function');
 
                                                 if (window.sortItem === 'salary') {
                                                             var cmp1 = Number(a1.original[window.sortItem]);
@@ -57708,23 +57540,9 @@ $(document).ready(function () {
 
                                                 if (window.order === 'asc') {
                                                             return cmp1 > cmp2 ? 1 : -1;
+                                                } else if (window.order === 'desc') {
+                                                            return cmp1 < cmp2 ? 1 : -1;
                                                 }
-
-                                                // else {
-                                                //     return (a1.text > b1.text) ? 1 : -1;
-                                                // }
-
-                                                else if (window.order === 'desc') {
-                                                                        return cmp1 < cmp2 ? 1 : -1;
-                                                            }
-
-                                                // if (window.order === 'asc') {
-                                                //     return (a1[window.sortItem] < b1[window.sortItem]) ? 1 : -1;
-                                                // }
-                                                //
-                                                // else if (window.order === 'desc') {
-                                                //     return (a1[window.sortItem] > b1[window.sortItem]) ? 1 : -1;
-                                                // }
                                     },
                                     'search': {
                                                 'ajax': {
@@ -57735,23 +57553,7 @@ $(document).ready(function () {
                                                 }
                                     }
                         });
-                        // $.jstree.defaults.plugins.push("sort");
-                        // $.jstree.defaults.plugins.push("wholerow");
 
-                        // $.jstree.defaults.sort = function(a, b) {
-                        //     a1 = this.get_node(a);
-                        //     b1 = this.get_node(b);
-                        //     console.log(a1, b1);
-                        //
-                        //     return (a1.text > b1.text) ? 1 : -1;
-                        //     // if (a1.icon == b1.icon){
-                        //     // return (a1.text < b1.text) ? 1 : -1;
-                        //     // } else {
-                        //     //     return (a1.icon > b1.icon) ? 1 : -1;
-                        //     // }
-                        //     // return -1;
-                        // }
-                        console.log(document.head.querySelector('meta[name="csrf-token"]'));
                         var to = false;
                         $('#search').keyup(function () {
                                     if (to) {
@@ -57759,12 +57561,6 @@ $(document).ready(function () {
                                     }
                                     to = setTimeout(function () {
                                                 var v = $('#search').val();
-
-                                                // if (moment(v, 'DD.MM.YYYY').isValid()){
-                                                //     console.log(v);
-                                                //     v = moment(v).format("DD.MM.YYYY");
-                                                //     console.log(v);    //Invalid date always
-                                                // }
 
                                                 $('#jstree_auth').jstree(true).search(v);
                                     }, 500);
@@ -57790,24 +57586,6 @@ $(document).ready(function () {
                 icon: "error"
             });
         });
-
-        // swal({
-        //     title: "Are you sure?",
-        //     text: "Once deleted, you will not be able to recover this imaginary file!",
-        //     icon: "warning",
-        //     buttons: ['Отмена', 'Да'],
-        //     dangerMode: true
-        // })
-        // .then(function (willDelete) {
-        //     if (willDelete) {
-        //         swal("Poof! Your imaginary file has been deleted!", {
-        //             icon: "success"
-        //         });
-        //     }
-        //     else {
-        //         swal("Your imaginary file is safe!");
-        //     }
-        // });
     });
 });
 
@@ -57817,36 +57595,40 @@ $(document).ready(function () {
 
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-console.log('window.chiefsPerLevel', window.chiefsPerLevel, _typeof(window.chiefsPerLevel));
-
 $(document).ready(function () {
     var selectLevels = document.getElementById("hierarchy");
 
     var selectChiefs = document.getElementById("chiefs");
 
-    var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
+    if (selectLevels != null && selectChiefs != null) {
+        console.log(window.chiefsPerLevel, _typeof(window.chiefsPerLevel), selectLevels, typeof selectLevels === "undefined" ? "undefined" : _typeof(selectLevels), selectChiefs, typeof selectChiefs === "undefined" ? "undefined" : _typeof(selectChiefs));
 
-    console.log(chiefsPerLevelObject);
+        var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
 
-    for (index in chiefsPerLevelObject) {
+        //Let set hierarchy and chief selects
 
-        console.log(index);
-        selectLevels.options[selectLevels.options.length] = new Option(index, index);
-    }
+        for (index in chiefsPerLevelObject) {
 
-    chiefsPerLevelObject[1].forEach(function (item) {
-        selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
-    });
+            selectLevels.options[selectLevels.options.length] = new Option(index, index);
+        }
 
-    $('#hierarchy').on('change', function (e) {
-        console.log(e.target);
-
-        $('#chiefs').empty();
-
-        chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function (item) {
+        chiefsPerLevelObject[1].forEach(function (item) {
             selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
         });
-    });
+
+        $('#hierarchy').on('change', function (e) {
+
+            $('#chiefs').empty();
+
+            chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function (item) {
+                selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
+            });
+        });
+    }
+
+    // if (window.chiefsPerLevel !== 'underfined'){
+    //
+    // }
 });
 
 /***/ }),

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-//use Javascript;
 use App\Employee;
 use Illuminate\Http\Request;
 
@@ -26,44 +25,15 @@ class PageController extends Controller
 
     public function mainPage()
     {
-
-//        $collection = Employee::where ('hierarchy_level', '=', 1)->get();
-//
-//
-//        $firstLevelEmployee = $collection->map(function ($item, $key) {
-//            return ['id' => $item->id,
-//                    'parent' => '#',
-//                    'text' => $item->name . '   '. $item->position . '   ' . $item->date_of_employment . '   ' . $item->salary,
-//                    'childrenNumber' => Employee::find($item->id)->children()->count(),
-//                    'hierarchyLevel' => $item-> hierarchy_level,
-//                    'icon' => false,
-//                    'state' => [
-//                        'opened' => false,
-//                        'disabled' => false,
-//                        'selected' => false,
-//                    ],
-//                    'li_attr' => [],
-//                    'a_attr' => [],
-//                ];
-//
-//        });
-
-
-
-//        $collection = Employee::where ('hierarchy_level', '=', 1)->get();
-//
-//
-//        $firstLevelEmployee = $collection->map(function ($item, $key) {
-//            return ['text' => $item->name,
-//                    'childrenNumber' => Employee::find($item->id)->children()->count(),
-//                    'dbId' => $item->id,
-//                    'hierarchyLevel' => $item-> hierarchy_level];
-//        });
-
-
-
         return view('welcome');
     }
+
+    /**
+     * Fetch children
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
 
     public function fetchChildren ($id)
     {
@@ -97,6 +67,10 @@ class PageController extends Controller
         return response($subordinates, 200);
 
     }
+
+    /**Fetch roots
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
 
     public function fetchRoots()
     {

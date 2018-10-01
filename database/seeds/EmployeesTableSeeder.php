@@ -22,8 +22,6 @@ class EmployeesTableSeeder extends Seeder
 
         $parentIdsRange = ['min' => 0, 'max' => 0];
 
-//        $initialId = 1;
-
         foreach($percentage as $key => $value) {
              $hierarchyLevel = $key + 1;
 
@@ -52,27 +50,6 @@ class EmployeesTableSeeder extends Seeder
 
                         $hierarchyLevel === 1 ? $parentId = 0: $parentId = mt_rand($parentIdsRange['min'] +1, $parentIdsRange['max']);
 
-//                        if ($hierarchyLevel === 1){
-//                            $parentId = 0;
-//
-//                            $parentIdsRange['max'] = (int)($value * (int)env('EMPLOYEES_NUMBER'));
-//
-//                        }
-//                        else {
-////                            $parentId = mt_rand($initialId, $initialId + $previousValue);  //$value уже уровня 2, а не 1!
-//                            dd($hierarchyLevel, $parentIdsRange);
-//                            $parentId = mt_rand($parentIdsRange['min'] +1, $parentIdsRange['max']);
-////                            var_dump($initialId);
-//
-////                            $parentIdsRange['min'] += $parentIdsRange['max'];
-////
-////                            $parentIdsRange['max'] = $parentIdsRange['max'] + $value * (int)env('EMPLOYEES_NUMBER');
-//
-////                            $initialId += $previousValue;
-////                            var_dump($initialId, '---------');
-//                        }
-
-//                        var_dump('STOP!', $hierarchyLevel, $parentIdsRange);
 
                         return $parentId;
                     }
@@ -82,7 +59,6 @@ class EmployeesTableSeeder extends Seeder
 
             $parentIdsRange['max'] += $value * (int)env('EMPLOYEES_NUMBER');
 
-//            $previousValue = $value * (int)env('EMPLOYEES_NUMBER');
         }
 
     }

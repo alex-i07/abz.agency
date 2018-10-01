@@ -107,7 +107,7 @@
 
                     <div class="input-group">
                         <button type="button" id="remove-employee" class="btn btn-danger">
-                            <i class="glyphicon glyphicon-chevron-right"></i>
+                            <i class="glyphicon glyphicon-trash"></i>
                             <span>Удалить</span>
                         </button>
                     </div>
