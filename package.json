@@ -19,6 +19,7 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
+    "dropzone": "^5.5.1",
     "jstree": "^3.3.5",
     "moment": "^2.22.2",
     "sweetalert": "^2.1.0"

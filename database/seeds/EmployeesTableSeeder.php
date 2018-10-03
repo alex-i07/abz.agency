@@ -2,6 +2,7 @@
 
 use App\Employee;
 use Illuminate\Database\Seeder;
+use Illuminate\Filesystem\Filesystem;
 
 class EmployeesTableSeeder extends Seeder
 {
@@ -17,6 +18,9 @@ class EmployeesTableSeeder extends Seeder
     {
 
         Employee::truncate();
+
+        $file = new Filesystem;
+        $file->cleanDirectory('storage/app/public/users-avatars');
 
         $percentage = explode(',', env('PERCENTAGE'));
 

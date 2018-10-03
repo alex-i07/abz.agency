@@ -17,6 +17,7 @@ class CreateEmployeesTable extends Migration
             $table->increments('id');
             $table->integer('parent_id')->unsigned();
             $table->integer('hierarchy_level')->unsigned();
+            $table->string('avatar')->nullable();
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');

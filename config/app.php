@@ -176,6 +176,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         /////////////////////////
 //        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
+        LaraCrud\LaraCrudServiceProvider::class,
         ////////////////////////
 
         /*

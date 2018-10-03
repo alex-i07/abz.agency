@@ -39,11 +39,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('search', 'HomeController@search');
 
-Route::get('about/{id}/edit', 'HomeController@getInfo')->where('id', '[0-9]+');   //405 принимает save за {id} ? Регулярку поставить или поменять местами маршруты
+Route::get('employee/{id}/edit', 'HomeController@getInfo')->where('id', '[0-9]+');   //405 принимает save за {id} ? Регулярку поставить или поменять местами маршруты
 
-Route::post('about/save', 'HomeController@editInfo');
+Route::post('employee/save', 'HomeController@editInfo');
 
-Route::post('about/delete', 'HomeController@deleteEmployee');
+Route::post('employee/delete', 'HomeController@deleteEmployee');
 
 
 Route::get('create-form', 'HomeController@createForm');

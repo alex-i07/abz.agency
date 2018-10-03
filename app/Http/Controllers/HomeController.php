@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\DB;
 use App\Employee;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -49,7 +50,7 @@ class HomeController extends Controller
                     'text' => null,
                     'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
                     'hierarchyLevel' => $item-> hierarchy_level,
-                    'icon' => 'glyphicon glyphicon-user',
+                    'icon' => ($item->avatar !== NULL) ? './storage/users-avatars/' . $item->avatar : 'glyphicon glyphicon-user',
                     'state' => [
                         'opened' => false,
                         'disabled' => false,
@@ -88,7 +89,7 @@ class HomeController extends Controller
                     'text' => null,
                     'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
                     'hierarchyLevel' => $item-> hierarchy_level,
-                    'icon' => 'glyphicon glyphicon-user',
+                    'icon' => ($item->avatar !== NULL) ? './storage/users-avatars/' . $item->avatar : 'glyphicon glyphicon-user',
                     'state' => [
                         'opened' => false,
                         'disabled' => false,
@@ -206,6 +207,7 @@ class HomeController extends Controller
     {
 
         $this->validate(request(), [
+            'avatar' => 'mimes:jpg,jpeg,png,bmp,svg,gif|max:3072',
             'name' => 'required|string',
             'email'     => 'required|email',
             'position'     => 'required|string',
@@ -214,8 +216,33 @@ class HomeController extends Controller
             'parent_id'     => 'required|numeric',
         ]);
 
+        $employee = Employee::where('email', '=', $request->email);
 
-        Employee::where('email', '=', $request->email)->update([
+        $id = $employee->get()[0]->id;
+
+        if ($request->avatar) {
+
+            $path = $employee->get()[0]->avatar;
+
+            //delete previous file if exists
+
+            if(Storage::exists('public/users-avatars/' . $path)){   //здесь нужно добавлять public/users-avatars/
+                Storage::delete('public/users-avatars/' . $path);         //ссылка должна быть http://abz.agency.local/storage/users-avatars/8KNVwG3E1btp2QOoJEEgZH7p8RTmm8qwPkAzADNv.jpeg
+            }
+
+            $request->file('avatar')->store('public/users-avatars');
+//            $path = Storage::putFile('public/users-avatars', $request->file('avatar'));
+            $path = $request->file('avatar')->hashName();  // буду в БД только имя записывать
+
+//            $path = Storage::url($path);
+
+        }
+        else {
+            $path = null;
+        }
+//dd($path);
+        $employee->update([
+            'avatar' => $path,
             'name'    => $request->name,
             'email'    => $request->email,
             'position'       => $request->position,
@@ -224,7 +251,11 @@ class HomeController extends Controller
             'parent_id' => $request->parent_id,
         ]);
 
-        return back();
+        if($request->ajax()){
+            return response('/employee/' . $id .'/edit', 201);
+        }
+
+        return redirect('/employee/' . $id .'/edit');
 
     }
 
@@ -277,7 +308,7 @@ class HomeController extends Controller
 
         $i = 2;
 
-        for ($j = 0; $j < $hierarchyLevels->count() - 1; $j++){
+        for ($j = 0; $j < $hierarchyLevels->count(); $j++){
 
             $hierarchyLevel = $hierarchyLevels[$j]->hierarchy_level;
 
@@ -305,11 +336,11 @@ class HomeController extends Controller
     {
 
         $this->validate($request, [
+            'avatar' => 'mimes:jpg,jpeg,png,bmp,svg,gif|max:3072',
             'name' => 'required|string',
-            'email' => 'required|email',
+            'email' => 'required|string|email|unique:employees',
             'password' => 'required|string|min:6|',
             'position'     => 'required|string',
-
             'date_of_employment' => 'required|date',
             'salary'     => 'required|numeric',
             'parent_id'     => 'required|numeric',
@@ -317,8 +348,21 @@ class HomeController extends Controller
 
         ]);
 
+        if ($request->avatar) {
+
+//            $path = Storage::putFile('public/users-avatars', $request->file('avatar'));
+
+                $request->file('avatar')->store('public/users-avatars');
+            $path = $request->file('avatar')->hashName();
+
+        }
+        else {
+            $path = null;
+        }
+
         $employee = new Employee;
 
+        $employee->avatar = $path;
         $employee->name = $request->name;
         $employee->email = $request->email;
         $employee->position = $request->position;
@@ -330,6 +374,11 @@ class HomeController extends Controller
 
         $employee->save();
 
-        return redirect('/about/' . $employee->id .'/edit');
+        if($request->ajax()){
+            return response($employee->id, 201);
+        }
+
+        return redirect('/employee/' . $employee->id .'/edit');
     }
+
 }

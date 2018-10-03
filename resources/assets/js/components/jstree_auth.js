@@ -120,10 +120,22 @@ $(document).ready(function() {
                             'auth-fetch-roots' :
                             'auth-fetch-children/' + node.id;
                     },
-                    'success': function (data) {
+                    'success': function (data) {   //list-group-item
 
                         data.forEach(function (value) {
-                            value.text = '<a href="about/' + value.id + '/edit' +'" class="record name">' + value.name + '</a>' +
+
+                            // value.text = value.name;
+
+                            // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
+                            //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
+                            //     // '<img src="https://via.placeholder.com/50x50">' +
+                            //     '<span class="record position">' + value.position + '</span>' +
+                            //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                            //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
+                            //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
+
+                            value.text = '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
+                                // '<img src="https://via.placeholder.com/50x50">' +
                                 '<span class="record position">' + value.position + '</span>' +
                                 '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
                                 '<span class="record salary">' + value.salary + 'грн.' + '</span>' +

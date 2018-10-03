@@ -1,0 +1,54 @@
+//#dropzone-create {
+//  border:none;
+//
+//  &.panel-body &.dz-container{
+//    display: flex !important;
+//    justify-content: space-evenly !important;
+//
+//    &.dropzone-previews{
+//      width: 120px !important;
+//      height: 120px !important;
+//      background-color: aliceblue !important;
+//
+//      &.dz-message{
+//        font-size: 1.1em;
+//        margin: 0.5em 0;
+//        text-align: center;
+//      }
+//    }
+//
+//    &.buttons-wrapper {
+//      display: flex;
+//      flex-direction: column;
+//      justify-content: space-evenly;
+//    }
+//  }
+//}
+
+.dropzone {
+  border: none;
+}
+
+.dropzone .dz-preview {
+  margin: 0;
+}
+
+.custom-body {
+    display: flex !important;
+    justify-content: space-evenly !important;
+}
+.dropzone-previews {
+  width: 120px !important;
+  height: 120px !important;
+  background-color: aliceblue !important;
+}
+.format {
+  font-size: 1.1em !important;
+  margin: 0.5em 0 !important;
+  text-align: center !important;
+}
+.buttons-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+}

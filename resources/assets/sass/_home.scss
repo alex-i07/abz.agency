@@ -17,10 +17,39 @@
 
 hr {
   margin-top: 0;
+  border-top: 2px solid #33baf8;
 }
 
-.jstree-wholerow {
+#jstree_auth ul li{
+  position:relative;
+  display:block;
+  padding: 0.75rem 1.25rem;
+  margin-bottom:-1px;
+  background-color:#fff;
+  border:1px solid rgba(0,0,0,.125);
+  border-left: none;
+  border-right: none;
+}
 
+#jstree_auth ul li:first-child{
+  border-top: none;
+}
+
+#jstree_auth ul li:last-child{
+  border-bottom: none;
+}
+.jstree-wholerow{
+  height: 40px !important;
+}
+.jstree-icon{
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+  font-size: 40px;
+}
+
+.jstree-themeicon-custom{
+  background-size: contain !important;
 }
 
 .jstree-anchor {
@@ -51,6 +80,6 @@ hr {
     }
   }
   .badge {
-    float: right;
+    //float: right;
   }
 }
