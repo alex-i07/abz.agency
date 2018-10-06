@@ -63,6 +63,8 @@ class HomeController extends Controller
 
         });
 
+//        $firstLevelEmployees = [['id'=>'1', 'text'=>'NOde1', 'children' =>  ['id'=>'12', 'text'=>'NOde12']], ['id'=>'2', 'text'=>'NOde2']];
+
         return response($firstLevelEmployees, 200);
     }
 
@@ -117,12 +119,7 @@ class HomeController extends Controller
     {
         $str = $request->str;
 
-        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
-            ->where('date_of_employment', 'LIKE', ['%' . $str . '%'])
-            ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
-            ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
-            ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])
-            ->get();
+        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('date_of_employment', 'LIKE', ['%' . $str . '%'])->orWhereRaw('name LIKE ?', ['%' . $str . '%'])->orWhereRaw('position LIKE ?', ['%' . $str . '%'])->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])->get();
 
         if($collection->isEmpty()){
             return response('No records found', 200);
@@ -155,7 +152,7 @@ class HomeController extends Controller
 
         $result = $allParentIds->unique();
 
-        $result = array_values($result->toArray());
+        $result = array_values($allParentIds->toArray());
 
         return response($result, 200);
 
@@ -379,6 +376,187 @@ class HomeController extends Controller
         }
 
         return redirect('/employee/' . $employee->id .'/edit');
+    }
+
+    public function dragDrop (Request $request)
+    {
+
+//        dd($request->all());
+        $elementId = $request->elementId;
+        $parentId = $request->parentId;
+
+        $employee = Employee::find($elementId);
+
+        $employee->parent_id = $parentId;
+
+//        $employee->save();
+
+        if ($parentId === 0){
+            $employee->hierarchy_level === 1;
+        }
+        else{
+            $parentLevel = $employee->parent()->get()[0]->hierarchy_level;
+
+            $employee->hierarchy_level = $parentLevel - 1;
+        }
+
+        $employee->save();
+
+        return response('Drag and drop successfull', 201);
+    }
+
+    public function fetchMassload (Request $request)
+    {
+
+//        return [
+//            "2" => [
+//            ["id"=>"75","text"=>"Some child of Node 1","children"=>false],
+//        ],
+//    ];
+
+
+//        return [8,54,191,2,75,155,28,96,153,20,73,18,53,42,70,25,77,86,45,61,5,91,43,90,24,6,59,32,60,94,37,68,14,72,7,98,47,46,41,135,40];
+
+//        dd($request->all()['ids']);
+
+
+//        return [
+//            ['id' => 2,
+//                    'parent' => 0,
+//                    'name' => 'Аксёнова Жанна Борисовна',
+//                    'position' => 'Арт-директор',
+//                    'date_of_employment' => '11.11.1995',
+//                    'salary' => '119333',
+//                    'text' => null,
+//                    'childrenNumber' => 1,
+//                    'hierarchyLevel' => 1,
+//                    'icon' => NULL,
+//                    'state' => [
+//                        'opened' => false,
+//                        'disabled' => false,
+//                        'selected' => false,
+//                    ],
+//                    'li_attr' => [],
+//                    'a_attr' => [],
+//                    'children' => true
+//                    ],
+//                    [
+//                    'id' => 75,
+//                    'parent' => 2,
+//                    'name' => 'Симонов Владислав Львович',
+//                    'position' => 'Зубной техник',
+//                    'date_of_employment' => '18.07.1986',
+//                    'salary' => '63987',
+//                    'text' => null,
+//                    'childrenNumber' => 4,
+//                    'hierarchyLevel' => 2,
+//                    'icon' => NULL,
+//                    'state' => [
+//                        'opened' => false,
+//                        'disabled' => false,
+//                        'selected' => false,
+//                    ],
+//                    'li_attr' => [],
+//                    'a_attr' => [],
+//                    'children' => true
+//                    ],
+//                    [
+//                        'id' => 121,
+//                        'parent' => 75,
+//                        'name' => 'Константин Максимович Данилов',
+//                        'position' => 'Администратор',
+//                        'date_of_employment' => '04.09.1989',
+//                        'salary' => '54503',
+//                        'text' => null,
+//                        'childrenNumber' => 0,
+//                        'hierarchyLevel' => 3,
+//                        'icon' => NULL,
+//                        'state' => [
+//                            'opened' => false,
+//                            'disabled' => false,
+//                            'selected' => false,
+//                        ],
+//                        'li_attr' => [],
+//                        'a_attr' => [],
+//                        'children' => false
+//                    ]
+
+//            ];
+
+
+
+        $ids = explode(',', $request->all()['ids']);
+
+        $result = collect([]);
+
+        foreach ($ids as $id)
+        {
+            $children = Employee::find($id)->children()->get();
+
+            $collection = $children->map(function ($item, $key) use($id){
+                return
+                    [
+                    'id' => $item->id,
+                    'parent' => $item->parent_id,
+                    'name' => $item->name,
+                    'position' => $item->position,
+                    'date_of_employment' => $item->date_of_employment,
+                    'salary' => $item->salary,
+                    'text' => null,
+                    'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
+                    'hierarchyLevel' => $item-> hierarchy_level,
+                    'icon' => ($item->avatar !== NULL) ? './storage/users-avatars/' . $item->avatar : 'glyphicon glyphicon-user',
+                    'state' => [
+                        'opened' => false,
+                        'disabled' => false,
+                        'selected' => false,
+                    ],
+                    'li_attr' => [],
+                    'a_attr' => [],
+                    'children' => $childrenNumber === 0 ? false : true
+                ];
+            });
+
+            $result->put($id, $collection);
+        }
+//dd($result->toArray());
+//        return [['id'=>'1', 'text'=>'NOde1', 'children' =>  ['id'=>'12', 'text'=>'NOde12']], ['id'=>'2', 'text'=>'NOde2', 'children' =>  ['id'=>'22', 'text'=>'NOde22']]];
+
+        return response (json_encode($result->toArray()), 200);
+
+
+
+
+
+
+
+
+//        $collection = Employee::whereIn('id', $ids)->get();
+//
+//        $employees = $collection->map(function ($item, $key) {
+//            return ['id' => $item->id,
+//                    'parent' => $item->parent_id,
+//                    'name' => $item->name,
+//                    'position' => $item->position,
+//                    'date_of_employment' => $item->date_of_employment,
+//                    'salary' => $item->salary,
+//                    'text' => null,
+//                    'childrenNumber' => $childrenNumber = Employee::find($item->id)->children()->count(),
+//                    'hierarchyLevel' => $item-> hierarchy_level,
+//                    'icon' => ($item->avatar !== NULL) ? './storage/users-avatars/' . $item->avatar : 'glyphicon glyphicon-user',
+//                    'state' => [
+//                        'opened' => false,
+//                        'disabled' => false,
+//                        'selected' => false,
+//                    ],
+//                    'li_attr' => [],
+//                    'a_attr' => [],
+//                    'children' => $childrenNumber === 0 ? false : true,
+//            ];
+//
+//        });
+
+
     }
 
 }

@@ -8,7 +8,7 @@ import swal from 'sweetalert'
 
 $( document ).ready(function() {
     $(function () {
-        $('#jstree_quest').jstree({
+        $('#jstree_guest').jstree({
                     'plugins' : [ 'wholerow' ],
                     'core': {
                         'themes':

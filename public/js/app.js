@@ -60420,7 +60420,7 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('ru');
 
 $(document).ready(function () {
     $(function () {
-        $('#jstree_quest').jstree({
+        $('#jstree_guest').jstree({
             'plugins': ['wholerow'],
             'core': {
                 'themes': {
@@ -60927,6 +60927,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 __webpack_require__(14);
 
 
@@ -60936,188 +60938,347 @@ __WEBPACK_IMPORTED_MODULE_0_moment___default.a.locale('ru');
 
 
 $(document).ready(function () {
-            $(function () {
+    $(function () {
 
-                        $('#name').on('click', function (e) {
+        $(document).ajaxSend(function (elm, xhr, s) {
+            if (s.type === "POST") {
+                s.data += s.data ? "&" : "";
+                s.data += "_token=" + document.head.querySelector('meta[name="csrf-token"]').content;
+            }
+        });
 
-                                    var icon = $('#name-i');
+        $('#name').on('click', function (e) {
 
-                                    window.sortItem = 'name';
+            var icon = $('#name-i');
 
-                                    window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+            window.sortItem = 'name';
 
-                                    if (window.order === 'asc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
-                                    } else if (window.order === 'desc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
-                                    }
+            window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
 
-                                    $('#position-i').css('opacity', '0');
-                                    $('#date-i').css('opacity', '0');
-                                    $('#salary-i').css('opacity', '0');
+            if (window.order === 'asc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
+            } else if (window.order === 'desc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
+            }
 
-                                    $("#jstree_auth").jstree('refresh');
+            $('#position-i').css('opacity', '0');
+            $('#date-i').css('opacity', '0');
+            $('#salary-i').css('opacity', '0');
+
+            $("#jstree_auth").jstree('refresh');
+        });
+
+        $('#position').on('click', function (e) {
+
+            var icon = $('#position-i');
+
+            window.sortItem = 'position';
+
+            window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+
+            if (window.order === 'asc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
+            } else if (window.order === 'desc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
+            }
+
+            $('#name-i').css('opacity', '0');
+            $('#date-i').css('opacity', '0');
+            $('#salary-i').css('opacity', '0');
+
+            $("#jstree_auth").jstree('refresh');
+        });
+
+        $('#date').on('click', function (e) {
+
+            var icon = $('#date-i');
+
+            window.sortItem = 'date_of_employment';
+
+            window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+
+            if (window.order === 'asc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
+            } else if (window.order === 'desc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
+            }
+
+            $('#position-i').css('opacity', '0');
+            $('#name-i').css('opacity', '0');
+            $('#salary-i').css('opacity', '0');
+
+            $("#jstree_auth").jstree('refresh');
+        });
+
+        $('#salary').on('click', function (e) {
+
+            var icon = $('#salary-i');
+
+            window.sortItem = 'salary';
+
+            window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+
+            if (window.order === 'asc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
+            } else if (window.order === 'desc') {
+                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
+            }
+
+            $('#position-i').css('opacity', '0');
+            $('#date-i').css('opacity', '0');
+            $('#name-i').css('opacity', '0');
+
+            $("#jstree_auth").jstree('refresh');
+        });
+
+        $('#jstree_auth').jstree({
+            'plugins': ['sort', 'search', 'wholerow', 'dnd', 'massload'],
+            'core': {
+                "check_callback": true,
+                'themes': {
+                    'responsive': true,
+                    'dots': false,
+                    'icons': true
+                },
+                'data': {
+                    "dataType": "json",
+                    'url': function url(node) {
+
+                        return node.id === '#' ? 'auth-fetch-roots' : 'auth-fetch-children/' + node.id;
+                    },
+                    'success': function success(data) {
+                        //list-group-item
+
+                        data.forEach(function (value) {
+
+                            // value.text = value.name;
+
+                            // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
+                            //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
+                            //     // '<img src="https://via.placeholder.com/50x50">' +
+                            //     '<span class="record position">' + value.position + '</span>' +
+                            //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                            //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
+                            //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
+
+                            value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
+                            // '<img src="https://via.placeholder.com/50x50">' +
+                            '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
+                    },
+                    'error': function error(_error) {
 
-                        $('#position').on('click', function (e) {
+                        // swal({
+                        //     title: 'An error has occurred during AJAX request!',
+                        //     text: 'Please, try again later',
+                        //     icon: 'error',
+                        //     closeModal: false
+                        // });
 
-                                    var icon = $('#position-i');
+                        console.log(_error);
+                    }
+                }
+            },
+            'sort': function sort(a, b) {
 
-                                    window.sortItem = 'position';
+                window.sortItem = window.sortItem || 'name';
 
-                                    window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+                window.order = window.order || 'asc';
 
-                                    if (window.order === 'asc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
-                                    } else if (window.order === 'desc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
-                                    }
+                var a1 = this.get_node(a);
+                var b1 = this.get_node(b);
 
-                                    $('#name-i').css('opacity', '0');
-                                    $('#date-i').css('opacity', '0');
-                                    $('#salary-i').css('opacity', '0');
+                if (window.sortItem === 'salary') {
+                    var cmp1 = Number(a1.original[window.sortItem]);
 
-                                    $("#jstree_auth").jstree('refresh');
+                    var cmp2 = Number(b1.original[window.sortItem]);
+                } else if (window.sortItem === 'date_of_employment') {
+                    var cmp1 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(a1.original[window.sortItem], 'YYYY-MM-DD').valueOf();
+
+                    var cmp2 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(b1.original[window.sortItem], 'YYYY-MM-DD').valueOf();
+                } else {
+                    var cmp1 = a1.original[window.sortItem];
+
+                    var cmp2 = b1.original[window.sortItem];
+                }
+
+                if (window.order === 'asc') {
+                    return cmp1 > cmp2 ? 1 : -1;
+                } else if (window.order === 'desc') {
+                    return cmp1 < cmp2 ? 1 : -1;
+                }
+            },
+            'search': {
+                'ajax': {
+                    'url': '/search',
+                    // "url" : "fetch-massload",
+                    'dataType': 'json',
+                    'type': 'GET'
+                }
+            },
+
+            "massload": function massload(nodes, callback) {
+
+                console.log('MARKER');
+
+                var notLoadedNodes = [];
+                for (var key in nodes) {
+                    if (!nodes.hasOwnProperty(key)) continue;
+                    if (!this.is_loaded(nodes[key])) {
+                        notLoadedNodes.push(nodes[key]);
+                    }
+                }
+                if (notLoadedNodes.length === 0) {
+                    callback([]);
+                    return;
+                } else {
+                    // callback(notLoadedNodes);
+
+                    axios.post('/fetch-massload', { ids: notLoadedNodes.join(',') }).then(function (response) {
+                        console.log(response.data);
+
+                        for (var key in nodes) {
+                            if (!nodes.hasOwnProperty(key)) continue;
+                            // console.log(nodes[key], typeof nodes[key], key, typeof key, 'nodes[key]');
+                            console.log(response.data[nodes[key]], 'nodes');
+
+                            response.data[nodes[key]].forEach(function (value) {
+
+                                // value.text = value.name;
+
+                                // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
+                                //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
+                                //     // '<img src="https://via.placeholder.com/50x50">' +
+                                //     '<span class="record position">' + value.position + '</span>' +
+                                //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                                //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
+                                //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
+
+                                value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
+                                // '<img src="https://via.placeholder.com/50x50">' +
+                                '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                            });
+
+                            // for(var j in nodes[key]) {
+                            //     console.log(nodes[key][j]);
+                            // }
+                            // nodes[key].forEach(function (value) {
+                            //
+                            //     // value.text = value.name;
+                            //
+                            //     // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
+                            //     //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
+                            //     //     // '<img src="https://via.placeholder.com/50x50">' +
+                            //     //     '<span class="record position">' + value.position + '</span>' +
+                            //     //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                            //     //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
+                            //     //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
+                            //
+                            //     value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
+                            //         // '<img src="https://via.placeholder.com/50x50">' +
+                            //         '<span class="record position">' + value.position + '</span>' +
+                            //         '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                            //         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
+                            //         '<span class="badge">' + value.childrenNumber + '</span>';
+                            // });
+                        }
+
+                        return callback(response.data);
+                        // callback([]);
+                    }).catch(function (error) {
+                        __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
+                            title: 'An error has occurred during AJAX request!',
+                            text: 'Drag-n-drop might not be saved. Please, try again later',
+                            icon: 'error',
+                            closeModal: false
                         });
+                        console.log(error);
+                    });
+                }
 
-                        $('#date').on('click', function (e) {
+                // $.get('/fetch-massload', {ids: notLoadedNodes.join(',')})
+                //     .done(function (data) {
+                //         // data = null;
+                //         console.log(data);
+                //         return data;
+                //         // callback(data); // data needs to be a JSON object like: { "node_id" : { "id" : node_id, "text" : "asdf", ... }, other_node_id : { ... node data ...}  }
+                //     });
+                // return notLoadedNodes;
+                // $.get('/fetch-massload', {'ids': nodes.join(',')})
+                // },
+                // .done(function (data) {
+                //     callback(data); // data needs to be a JSON object like: { "node_id" : { "id" : node_id, "text" : "asdf", ... }, other_node_id : { ... node data ...}  }
+                // })
 
-                                    var icon = $('#date-i');
+                // 'massload' : function (nodes, callback) {
+                //     $.get('/fetch-massload', {'ids': nodes.join(',')}) // example only
+                //
+            }
+            // "massload" : {
+            //     "url" : "fetch-massload",
+            //     "dataType" : "json",
+            //     "type": "get",
+            //     "data" : function (nodes) {
+            //         return {
+            //             "ids" : nodes.join(",")
+            //         };
+            //     }
+            // }
+        });
 
-                                    window.sortItem = 'date_of_employment';
+        // $(document).on('search.jstree', function (nodes, str, res) {
+        //     console.log('SEARCH IS COMPLETE');
+        //     console.log(nodes, typeof nodes);
+        //     console.log(str, typeof str);
+        //     console.log(res, typeof res);
+        // });
 
-                                    window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+        $(document).on('dnd_stop.vakata', function (e, data) {
+            var ref = $('#jstree_auth').jstree(true);
+            console.log("REF", ref);
 
-                                    if (window.order === 'asc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
-                                    } else if (window.order === 'desc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
-                                    }
+            var elementId = ref.get_node(data.element).id;
+            var parentId = ref.get_node(data.element).parent;
 
-                                    $('#position-i').css('opacity', '0');
-                                    $('#name-i').css('opacity', '0');
-                                    $('#salary-i').css('opacity', '0');
+            if (parentId === '#') {
+                parentId = 0;
+            }
 
-                                    $("#jstree_auth").jstree('refresh');
-                        });
+            console.log('DATA.ELEMENT', ref.get_node(data.element));
 
-                        $('#salary').on('click', function (e) {
+            console.log('ELEMENT-ID', ref.get_node(data.element).id);
 
-                                    var icon = $('#salary-i');
+            console.log("FUTURE PARENT", parentId, typeof parentId === 'undefined' ? 'undefined' : _typeof(parentId));
 
-                                    window.sortItem = 'salary';
+            var send = { 'elementId': elementId, 'parentId': parentId };
 
-                                    window.order === 'asc' ? window.order = 'desc' : window.order = 'asc';
+            console.log('SEND', send, typeof send === 'undefined' ? 'undefined' : _typeof(send));
 
-                                    if (window.order === 'asc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-up');
-                                    } else if (window.order === 'desc') {
-                                                icon.css('opacity', '1').attr('class', 'glyphicon glyphicon-chevron-down');
-                                    }
-
-                                    $('#position-i').css('opacity', '0');
-                                    $('#date-i').css('opacity', '0');
-                                    $('#name-i').css('opacity', '0');
-
-                                    $("#jstree_auth").jstree('refresh');
-                        });
-
-                        $('#jstree_auth').jstree({
-                                    'plugins': ['sort', 'search', 'wholerow'],
-                                    'core': {
-                                                'themes': {
-                                                            'responsive': true,
-                                                            'dots': false,
-                                                            'icons': true
-                                                },
-                                                'data': {
-                                                            'url': function url(node) {
-
-                                                                        return node.id === '#' ? 'auth-fetch-roots' : 'auth-fetch-children/' + node.id;
-                                                            },
-                                                            'success': function success(data) {
-                                                                        //list-group-item
-
-                                                                        data.forEach(function (value) {
-
-                                                                                    // value.text = value.name;
-
-                                                                                    // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                                                                                    //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                                                                                    //     // '<img src="https://via.placeholder.com/50x50">' +
-                                                                                    //     '<span class="record position">' + value.position + '</span>' +
-                                                                                    //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                                                                                    //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                                                                                    //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-
-                                                                                    value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
-                                                                                    // '<img src="https://via.placeholder.com/50x50">' +
-                                                                                    '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
-                                                                        });
-                                                            },
-                                                            'error': function error(_error) {
-                                                                        __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
-                                                                                    title: 'An error has occurred during AJAX request!',
-                                                                                    text: 'Please, try again later',
-                                                                                    icon: 'error',
-                                                                                    closeModal: false
-                                                                        });
-
-                                                                        console.log(_error);
-                                                            }
-                                                }
-                                    },
-                                    'sort': function sort(a, b) {
-
-                                                window.sortItem = window.sortItem || 'name';
-
-                                                window.order = window.order || 'asc';
-
-                                                var a1 = this.get_node(a);
-                                                var b1 = this.get_node(b);
-
-                                                if (window.sortItem === 'salary') {
-                                                            var cmp1 = Number(a1.original[window.sortItem]);
-
-                                                            var cmp2 = Number(b1.original[window.sortItem]);
-                                                } else if (window.sortItem === 'date_of_employment') {
-                                                            var cmp1 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(a1.original[window.sortItem], 'YYYY-MM-DD').valueOf();
-
-                                                            var cmp2 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(b1.original[window.sortItem], 'YYYY-MM-DD').valueOf();
-                                                } else {
-                                                            var cmp1 = a1.original[window.sortItem];
-
-                                                            var cmp2 = b1.original[window.sortItem];
-                                                }
-
-                                                if (window.order === 'asc') {
-                                                            return cmp1 > cmp2 ? 1 : -1;
-                                                } else if (window.order === 'desc') {
-                                                            return cmp1 < cmp2 ? 1 : -1;
-                                                }
-                                    },
-                                    'search': {
-                                                'ajax': {
-                                                            'url': '/search',
-                                                            'dataType': 'json',
-                                                            'type': 'GET'
-                                                            // 'X-CSRF-TOKEN' : document.head.querySelector('meta[name="csrf-token"]')
-                                                }
-                                    }
-                        });
-
-                        var to = false;
-                        $('#search').keyup(function () {
-                                    if (to) {
-                                                clearTimeout(to);
-                                    }
-                                    to = setTimeout(function () {
-                                                var v = $('#search').val();
-
-                                                $('#jstree_auth').jstree(true).search(v);
-                                    }, 500);
-                        });
+            axios.post('drag-n-drop', send).then(function (response) {
+                console.log(response);
+            }).catch(function (error) {
+                __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
+                    title: 'An error has occurred during AJAX request!',
+                    text: 'Drag-n-drop might not be saved. Please, try again later',
+                    icon: 'error',
+                    closeModal: false
+                });
+                console.log(error);
             });
+        });
+
+        var to = false;
+        $('#search').keyup(function () {
+            if (to) {
+                clearTimeout(to);
+            }
+            to = setTimeout(function () {
+                var v = $('#search').val();
+
+                $('#jstree_auth').jstree(true).search(v);
+            }, 500);
+        });
+    });
 });
 
 /***/ }),

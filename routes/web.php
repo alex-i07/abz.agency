@@ -49,3 +49,7 @@ Route::post('employee/delete', 'HomeController@deleteEmployee');
 Route::get('create-form', 'HomeController@createForm');
 
 Route::post('create', 'HomeController@createNewEmployee');
+
+Route::post('drag-n-drop', 'HomeController@dragDrop');
+
+Route::post('fetch-massload', 'HomeController@fetchMassload');

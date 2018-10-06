@@ -16,7 +16,7 @@
 
                 <div class="panel-body">
 
-                    <div id="jstree_quest"></div>
+                    <div id="jstree_guest"></div>
 
                 </div>
 
