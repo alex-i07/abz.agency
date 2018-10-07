@@ -68,7 +68,7 @@
                         <div class="input-group{{ $errors->has('date_of_employment') ? ' has-error' : '' }}">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 
-                            <input id="date_of_employment-about" type="text" class="form-control" name="date_of_employment" value="{{$employee->date_of_employment}}">
+                            <input id="date_of_employment-about" type="date" class="form-control" name="date_of_employment" value="{{$employee->date_of_employment}}">
 
                             @if ($errors->has('date_of_employment'))
                                 <span class="help-block">
@@ -133,7 +133,7 @@
 
     <script>
 
-        window.employee = '{!! $employee !!}';
+{{--        window.employee = '{!! $employee !!}';--}}
 
     </script>
 

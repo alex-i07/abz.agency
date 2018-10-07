@@ -20,6 +20,10 @@ hr {
   border-top: 2px solid #33baf8;
 }
 
+#jstree_auth ul {
+  max-width: 100% !important;
+}
+
 #jstree_auth ul li{
   position:relative;
   display:block;
@@ -80,6 +84,8 @@ hr {
     }
   }
   .badge {
-    //float: right;
+    position: absolute;
+    right: 1px;
+    top: 10px;
   }
 }

@@ -254,7 +254,7 @@ $(document).ready(function() {
                                     value.text = '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
                                         // '<img src="https://via.placeholder.com/50x50">' +
                                         '<span class="record position">' + value.position + '</span>' +
-                                        '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                                        '<span class="record date_of_employment">' + moment(value.date_of_employment).format('DD.MM.YYYY') + '</span>' +
                                         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                         '<span class="badge">' + value.childrenNumber + '</span>';
                                 });
@@ -327,35 +327,17 @@ $(document).ready(function() {
             //         };
             //     }
             // }
-        });
+        }).bind("move_node.jstree", function (e, data) {
+            // data.rslt.o is a list of objects that were moved
+            // Inspect data using your fav dev tools to see what the properties are
 
-        // $(document).on('search.jstree', function (nodes, str, res) {
-        //     console.log('SEARCH IS COMPLETE');
-        //     console.log(nodes, typeof nodes);
-        //     console.log(str, typeof str);
-        //     console.log(res, typeof res);
-        // });
+            console.log('move_node.jstree, data', data);
 
-        $(document).on('dnd_stop.vakata', function (e, data) {
-            var ref = $('#jstree_auth').jstree(true);
-            console.log("REF", ref);
+            var oldParentId = Number(data.old_parent === '#' ? 0 : data.old_parent), newParentId = Number(data.parent === '#' ? 0 : data.parent);
 
-            var elementId = ref.get_node(data.element).id;
-            var parentId = ref.get_node(data.element).parent;
+            var send = {'id': data.node.id, 'oldParentId': oldParentId, 'newParentId': newParentId};
 
-            if (parentId === '#') {
-                parentId = 0;
-            }
-
-            console.log('DATA.ELEMENT', ref.get_node(data.element));
-
-            console.log('ELEMENT-ID', ref.get_node(data.element).id);
-
-            console.log("FUTURE PARENT", parentId, typeof parentId);
-
-            var send = {'elementId': elementId, 'parentId': parentId};
-
-            console.log('SEND', send, typeof send);
+            console.log('ForSend', send);
 
             axios.post('drag-n-drop', send)
                 .then(function (response) {
@@ -370,6 +352,49 @@ $(document).ready(function() {
                     });
                     console.log(error);
                 });
+        });
+
+        // $(document).on('search.jstree', function (nodes, str, res) {
+        //     console.log('SEARCH IS COMPLETE');
+        //     console.log(nodes, typeof nodes);
+        //     console.log(str, typeof str);
+        //     console.log(res, typeof res);
+        // });
+
+        $(document).on('dnd_stop.vakata', function (e, data) {
+            var ref = $('#jstree_auth').jstree(true);
+            // console.log("REF", ref);
+
+            var elementId = ref.get_node(data.element).id;
+            var parentId = ref.get_node(data.element).parent;
+
+            if (parentId === '#') {
+                parentId = 0;
+            }
+
+            // console.log('DATA.ELEMENT', ref.get_node(data.element));
+            //
+            // console.log('ELEMENT-ID', ref.get_node(data.element).id);
+            //
+            // console.log("FUTURE PARENT", parentId, typeof parentId);
+            //
+            // var send = {'elementId': elementId, 'parentId': parentId};
+            //
+            // console.log('SEND', send, typeof send);
+
+            // axios.post('drag-n-drop', send)
+            //     .then(function (response) {
+            //         console.log(response);
+            //     })
+            //     .catch(function (error) {
+            //         swal({
+            //             title: 'An error has occurred during AJAX request!',
+            //             text: 'Drag-n-drop might not be saved. Please, try again later',
+            //             icon: 'error',
+            //             closeModal: false
+            //         });
+            //         console.log(error);
+            //     });
         });
 
         var to = false;

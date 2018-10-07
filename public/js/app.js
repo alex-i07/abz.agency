@@ -60436,7 +60436,7 @@ $(document).ready(function () {
                     'success': function success(data) {
 
                         data.forEach(function (value) {
-                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment).format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
                     },
                     'error': function error(_error) {
@@ -60927,8 +60927,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_moment__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 __webpack_require__(14);
 
 
@@ -61156,7 +61154,7 @@ $(document).ready(function () {
 
                                 value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
                                 // '<img src="https://via.placeholder.com/50x50">' +
-                                '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                                '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment).format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                             });
 
                             // for(var j in nodes[key]) {
@@ -61224,35 +61222,18 @@ $(document).ready(function () {
             //         };
             //     }
             // }
-        });
+        }).bind("move_node.jstree", function (e, data) {
+            // data.rslt.o is a list of objects that were moved
+            // Inspect data using your fav dev tools to see what the properties are
 
-        // $(document).on('search.jstree', function (nodes, str, res) {
-        //     console.log('SEARCH IS COMPLETE');
-        //     console.log(nodes, typeof nodes);
-        //     console.log(str, typeof str);
-        //     console.log(res, typeof res);
-        // });
+            console.log('move_node.jstree, data', data);
 
-        $(document).on('dnd_stop.vakata', function (e, data) {
-            var ref = $('#jstree_auth').jstree(true);
-            console.log("REF", ref);
+            var oldParentId = Number(data.old_parent === '#' ? 0 : data.old_parent),
+                newParentId = Number(data.parent === '#' ? 0 : data.parent);
 
-            var elementId = ref.get_node(data.element).id;
-            var parentId = ref.get_node(data.element).parent;
+            var send = { 'id': data.node.id, 'oldParentId': oldParentId, 'newParentId': newParentId };
 
-            if (parentId === '#') {
-                parentId = 0;
-            }
-
-            console.log('DATA.ELEMENT', ref.get_node(data.element));
-
-            console.log('ELEMENT-ID', ref.get_node(data.element).id);
-
-            console.log("FUTURE PARENT", parentId, typeof parentId === 'undefined' ? 'undefined' : _typeof(parentId));
-
-            var send = { 'elementId': elementId, 'parentId': parentId };
-
-            console.log('SEND', send, typeof send === 'undefined' ? 'undefined' : _typeof(send));
+            console.log('ForSend', send);
 
             axios.post('drag-n-drop', send).then(function (response) {
                 console.log(response);
@@ -61265,6 +61246,49 @@ $(document).ready(function () {
                 });
                 console.log(error);
             });
+        });
+
+        // $(document).on('search.jstree', function (nodes, str, res) {
+        //     console.log('SEARCH IS COMPLETE');
+        //     console.log(nodes, typeof nodes);
+        //     console.log(str, typeof str);
+        //     console.log(res, typeof res);
+        // });
+
+        $(document).on('dnd_stop.vakata', function (e, data) {
+            var ref = $('#jstree_auth').jstree(true);
+            // console.log("REF", ref);
+
+            var elementId = ref.get_node(data.element).id;
+            var parentId = ref.get_node(data.element).parent;
+
+            if (parentId === '#') {
+                parentId = 0;
+            }
+
+            // console.log('DATA.ELEMENT', ref.get_node(data.element));
+            //
+            // console.log('ELEMENT-ID', ref.get_node(data.element).id);
+            //
+            // console.log("FUTURE PARENT", parentId, typeof parentId);
+            //
+            // var send = {'elementId': elementId, 'parentId': parentId};
+            //
+            // console.log('SEND', send, typeof send);
+
+            // axios.post('drag-n-drop', send)
+            //     .then(function (response) {
+            //         console.log(response);
+            //     })
+            //     .catch(function (error) {
+            //         swal({
+            //             title: 'An error has occurred during AJAX request!',
+            //             text: 'Drag-n-drop might not be saved. Please, try again later',
+            //             icon: 'error',
+            //             closeModal: false
+            //         });
+            //         console.log(error);
+            //     });
         });
 
         var to = false;
@@ -61291,11 +61315,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_dropzone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 
 
 
+
+
+
+__WEBPACK_IMPORTED_MODULE_2_moment___default.a.locale('ru');
 
 window.Dropzone = __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a;
 window.Dropzone.autoDiscover = false;
@@ -61359,7 +61389,7 @@ $(document).ready(function () {
                     formData.append("email", $('#email-about').val());
                     formData.append("password", $('#password-about').val());
                     formData.append("position", $('#position-about').val());
-                    formData.append("date_of_employment", $('#date_of_employment-about').val());
+                    formData.append("date_of_employment", __WEBPACK_IMPORTED_MODULE_2_moment___default()($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
                     formData.append("salary", $('#salary-about').val());
                     formData.append("parent_id", $('#parent_id-about').val());
 
@@ -61383,18 +61413,22 @@ $(document).ready(function () {
                     });
                 });
 
-                var employee = JSON.parse(window.employee);
+                console.log("EMPLOYEE", window.employee);
+                // var employee = JSON.parse(employee);
 
-                if (employee.avatar !== null) {
+                //need to create thumbnail and display it if user has an avatar
+                //for that I imitate file upload: create an empty file and display it thumbnail, thumbnail url points to user avatar
+
+                if (window.employee.avatar !== null) {
                     var mockFile = { name: "Filename", size: 12345 };
                     this.emit("addedfile", mockFile);
 
-                    console.log(employee);
+                    console.log(window.employee);
 
                     this.files[0] = mockFile;
                     console.log(this.files, _typeof(this.files), 'this.files');
 
-                    this.emit("thumbnail", mockFile, 'http://' + window.location.host + '/storage/users-avatars/' + employee.avatar);
+                    this.emit("thumbnail", mockFile, 'http://' + window.location.host + '/storage/users-avatars/' + window.employee.avatar);
                     // dropzoneAbout.createThumbnailFromUrl(mockFile, window.employee.avatar);
 
                     // var existingFileCount = 1; // The number of files already uploaded
@@ -61407,7 +61441,7 @@ $(document).ready(function () {
 
             var email = $('#email-about').val();
 
-            axios.post('/about/delete', { 'email': email }).then(function (response) {
+            axios.post('/employee/delete', { 'email': email }).then(function (response) {
                 __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()("Сотрудник был успешно удалён с базы данных!", {
                     icon: "success"
                 });
@@ -61443,11 +61477,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_dropzone__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 
 
 
+
+
+
+__WEBPACK_IMPORTED_MODULE_2_moment___default.a.locale('ru');
 
 window.Dropzone = __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a;
 window.Dropzone.autoDiscover = false;
@@ -61458,7 +61498,7 @@ $(document).ready(function () {
     var selectChiefs = document.getElementById("chiefs-create");
 
     if (selectLevels != null && selectChiefs != null) {
-        console.log(window.chiefsPerLevel, _typeof(window.chiefsPerLevel), selectLevels, typeof selectLevels === 'undefined' ? 'undefined' : _typeof(selectLevels), selectChiefs, typeof selectChiefs === 'undefined' ? 'undefined' : _typeof(selectChiefs));
+        console.log(chiefsPerLevel, typeof chiefsPerLevel === 'undefined' ? 'undefined' : _typeof(chiefsPerLevel), selectLevels, typeof selectLevels === 'undefined' ? 'undefined' : _typeof(selectLevels), selectChiefs, typeof selectChiefs === 'undefined' ? 'undefined' : _typeof(selectChiefs));
 
         var dropzoneCreate = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a("#dropzone-create", {
             url: "create",
@@ -61512,7 +61552,7 @@ $(document).ready(function () {
                     formData.append("email", $('#email-create').val());
                     formData.append("password", $('#password-create').val());
                     formData.append("position", $('#position-create').val());
-                    formData.append("date_of_employment", $('#date_of_employment-create').val());
+                    formData.append("date_of_employment", __WEBPACK_IMPORTED_MODULE_2_moment___default()($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
                     formData.append("salary", $('#salary-create').val());
                     formData.append("hierarchy_level", $('#hierarchy_level-create').val());
                     formData.append("parent_id", $('#parent_id-create').val());
@@ -61539,17 +61579,18 @@ $(document).ready(function () {
             }
         });
 
-        var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
+        console.log('CHIEFSPERLEVEL', window.chiefsPerLevel);
+        // var chiefsPerLevelObject = JSON.parse(chiefsPerLevel);
 
         //Let set hierarchy and chief selects
         var index;
 
-        for (index in chiefsPerLevelObject) {
+        for (index in window.chiefsPerLevel) {
 
             selectLevels.options[selectLevels.options.length] = new Option(index, index);
         }
 
-        chiefsPerLevelObject[1].forEach(function (item) {
+        window.chiefsPerLevel[1].forEach(function (item) {
             selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
         });
 
@@ -61557,7 +61598,7 @@ $(document).ready(function () {
 
             $('#chiefs-create').empty();
 
-            chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function (item) {
+            window.chiefsPerLevel[selectLevels.selectedOptions[0].value].forEach(function (item) {
                 selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
             });
         });

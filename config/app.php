@@ -175,7 +175,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         /////////////////////////
-//        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
+        'Laracasts\Utilities\JavaScript\JavaScriptServiceProvider',
         LaraCrud\LaraCrudServiceProvider::class,
         ////////////////////////
 

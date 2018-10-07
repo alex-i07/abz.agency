@@ -1,3 +1,7 @@
+#jstree_guest ul {
+  max-width: 100% !important;
+}
+
 #jstree_guest ul li{
   position:relative;
   display:block;
@@ -58,6 +62,8 @@
     }
   }
   .badge {
-    //float: right;
+    position: absolute;
+    right: 1px;
+    top: 10px;
   }
 }

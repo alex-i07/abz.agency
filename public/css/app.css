@@ -9505,6 +9505,10 @@ button.close {
   color: #fff;
 }
 
+#jstree_guest ul {
+  max-width: 100% !important;
+}
+
 #jstree_guest ul li {
   position: relative;
   display: block;
@@ -9560,6 +9564,12 @@ button.close {
   margin-right: 80px;
 }
 
+.jstree-anchor .badge {
+  position: absolute;
+  right: 1px;
+  top: 10px;
+}
+
 .margin-none {
   margin-left: 0 !important;
   margin-right: 0 !important;
@@ -9580,6 +9590,10 @@ button.close {
 hr {
   margin-top: 0;
   border-top: 2px solid #33baf8;
+}
+
+#jstree_auth ul {
+  max-width: 100% !important;
 }
 
 #jstree_auth ul li {
@@ -9635,6 +9649,12 @@ hr {
 
 .jstree-anchor .record.date_of_employment {
   margin-right: 80px;
+}
+
+.jstree-anchor .badge {
+  position: absolute;
+  right: 1px;
+  top: 10px;
 }
 
 @-webkit-keyframes passing-through {

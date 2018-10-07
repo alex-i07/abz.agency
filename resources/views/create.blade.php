@@ -149,7 +149,7 @@
 
     <script>
 
-        window.chiefsPerLevel = '{!! $chiefsPerLevel !!}';
+        {{--window.chiefsPerLevel = '{!! $chiefsPerLevel !!}';--}}
 
     </script>
 

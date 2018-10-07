@@ -2,6 +2,10 @@ import Dropzone from 'dropzone';
 
 import swal from 'sweetalert'
 
+import moment from 'moment';
+
+moment.locale('ru');
+
 window.Dropzone = Dropzone;
 window.Dropzone.autoDiscover = false;
 
@@ -11,7 +15,7 @@ $(document).ready(function () {
     var selectChiefs = document.getElementById("chiefs-create");
 
     if (selectLevels !=null && selectChiefs !=null) {
-        console.log(window.chiefsPerLevel, typeof window.chiefsPerLevel, selectLevels, typeof selectLevels, selectChiefs, typeof selectChiefs);
+        console.log(chiefsPerLevel, typeof chiefsPerLevel, selectLevels, typeof selectLevels, selectChiefs, typeof selectChiefs);
 
         var dropzoneCreate = new Dropzone("#dropzone-create", {
             url: "create",
@@ -74,7 +78,7 @@ $(document).ready(function () {
                     formData.append("email",  $('#email-create').val());
                     formData.append("password",  $('#password-create').val());
                     formData.append("position",  $('#position-create').val());
-                    formData.append("date_of_employment",  $('#date_of_employment-create').val());
+                    formData.append("date_of_employment",  moment($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
                     formData.append("salary",  $('#salary-create').val());
                     formData.append("hierarchy_level",  $('#hierarchy_level-create').val());
                     formData.append("parent_id",  $('#parent_id-create').val());
@@ -105,18 +109,19 @@ $(document).ready(function () {
             }
         });
 
-        var chiefsPerLevelObject = JSON.parse(window.chiefsPerLevel);
+        console.log('CHIEFSPERLEVEL', window.chiefsPerLevel);
+        // var chiefsPerLevelObject = JSON.parse(chiefsPerLevel);
 
         //Let set hierarchy and chief selects
         var index;
 
-        for(index in chiefsPerLevelObject) {
+        for(index in window.chiefsPerLevel) {
 
             selectLevels.options[selectLevels.options.length] = new Option(index, index);
 
         }
 
-        chiefsPerLevelObject[1].forEach(function(item){
+        window.chiefsPerLevel[1].forEach(function(item){
             selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
         });
 
@@ -126,7 +131,7 @@ $(document).ready(function () {
 
             $('#chiefs-create').empty();
 
-            chiefsPerLevelObject[selectLevels.selectedOptions[0].value].forEach(function(item){
+            window.chiefsPerLevel[selectLevels.selectedOptions[0].value].forEach(function(item){
                 selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
             });
         });

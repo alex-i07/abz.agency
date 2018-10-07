@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use JavaScript;
 use App\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,6 +28,12 @@ class HomeController extends Controller
      */
     public function index()
     {
+        JavaScript::put([
+            'foo' => 'bar',
+            'user' => Employee::first(),
+            'age' => 29
+        ]);
+
         return view('home');
     }
 
@@ -190,6 +197,8 @@ class HomeController extends Controller
 
         }
 
+        JavaScript::put(['employee' => $employee]);
+
         return view ('about', compact('employee', 'chiefs'));
     }
 
@@ -317,9 +326,11 @@ class HomeController extends Controller
 
         }
 
-        $chiefsPerLevel = json_encode($chiefsPerLevel);
+//        $chiefsPerLevel = json_encode($chiefsPerLevel);
 
-        return view('create', compact('chiefsPerLevel'));
+        JavaScript::put(["chiefsPerLevel" => $chiefsPerLevel]);
+
+        return view('create');
     }
 
     /**
@@ -382,22 +393,27 @@ class HomeController extends Controller
     {
 
 //        dd($request->all());
-        $elementId = $request->elementId;
-        $parentId = $request->parentId;
+        $oldParentId = $request->oldParentId;
+        $newParentId = $request->newParentId;
+        $id = $request->id;
 
-        $employee = Employee::find($elementId);
+        $employee = Employee::find($id);
 
-        $employee->parent_id = $parentId;
+//        dd($employee);
+
+        $employee->parent_id = $newParentId;
 
 //        $employee->save();
 
-        if ($parentId === 0){
-            $employee->hierarchy_level === 1;
+        if ($newParentId === 0){
+            $employee->hierarchy_level = 1;
         }
         else{
-            $parentLevel = $employee->parent()->get()[0]->hierarchy_level;
+            $newHierarchyLevel = Employee::find($newParentId)->hierarchy_level;
 
-            $employee->hierarchy_level = $parentLevel - 1;
+//            $parentLevel = $employee->parent()->get()[0]->hierarchy_level;
+
+            $employee->hierarchy_level = $newHierarchyLevel - 1;
         }
 
         $employee->save();
