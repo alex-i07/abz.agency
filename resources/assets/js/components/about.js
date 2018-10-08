@@ -135,9 +135,17 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
 
             axios.post('/employee/delete', {'email':email})
                 .then(function (response) {
-                    swal("Сотрудник был успешно удалён с базы данных!", {
-                        icon: "success"
-                    });
+                    console.log(response.status);
+                    console.log(response);
+
+                    if (response.status == 200){
+                        swal("Сотрудник был успешно удалён с базы данных!", {
+                            icon: "success"
+                        }).then(function() {
+                            console.log("THEN");
+                            window.open('/home', '_blank');
+                        });
+                    }
                 })
                 .catch(function (error) {
                     swal("Ошибка во время ajax-запроса!", {

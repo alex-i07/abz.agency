@@ -61030,7 +61030,7 @@ $(document).ready(function () {
         });
 
         $('#jstree_auth').jstree({
-            'plugins': ['sort', 'search', 'wholerow', 'dnd', 'massload'],
+            'plugins': ['sort', 'search', 'wholerow', 'dnd', 'massload', 'contextmenu'],
             'core': {
                 "check_callback": true,
                 'themes': {
@@ -61038,6 +61038,7 @@ $(document).ready(function () {
                     'dots': false,
                     'icons': true
                 },
+                'multiple': false,
                 'data': {
                     "dataType": "json",
                     'url': function url(node) {
@@ -61059,7 +61060,8 @@ $(document).ready(function () {
                             //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                             //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
 
-                            value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
+                            value.text = '<span class="record name">' + value.name + '</span>' +
+                            // '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
                             // '<img src="https://via.placeholder.com/50x50">' +
                             '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
@@ -61077,6 +61079,64 @@ $(document).ready(function () {
                     }
                 }
             },
+            'contextmenu': {
+                'show_at_node': false,
+                'items': function items($node) {
+                    var tree = $("#jstree_auth").jstree(true);
+                    return {
+                        "about": {
+                            "separator_before": true,
+                            "separator_after": true,
+                            "label": "Подробнее",
+                            "action": function action(node) {
+                                // console.log(tree.get_node (node));
+                                window.open('/employee/' + tree.get_selected(node)[0].id + '/edit', '_blank');
+                                // $node = tree.create_node($node);
+                                // tree.edit($node);
+
+                                // console.log(tree.get_selected(node)[0].id);
+                            }
+
+                        },
+                        "new": {
+                            "separator_before": true,
+                            "separator_after": true,
+                            "label": "Создать нового сотрудника",
+                            "action": function action(node) {
+                                // console.log(tree.get_node (node));
+                                window.open('/create-form', '_blank');
+                                // $node = tree.create_node($node);
+                                // tree.edit($node);
+
+                                // console.log(tree.get_selected(node)[0].id);
+                            }
+
+                        }
+                    };
+                }
+            },
+            //     'items': {
+            //         'about': {
+            //             'label': function (node) {
+            //                 return '<a class="list-group-item" href="#">Подробнее1';
+            //             },
+            //             'action': function (node) {
+            //                 // console.log($(node).attr('id'));
+            //                 console.log(node);
+            //                 console.log(get_node (node));
+            //                 window.open('/employee/' + node.id + '/edit', '_blank');
+            //                 // return '<a class="list-group-item" href="/employee/' + node.id + '/edit">Подробнее</a>';
+            //             }
+            //         }
+            //     },
+            //     // 'items': function (node, callback) {
+            //     //     console.log(node.id);
+            //     //     return callback(['Поподробнее', function (node) {
+            //     //                     console.log(node.id);
+            //     //                     window.open('/employee/' + node.id + '/edit', '_blank');}]);
+            //     //
+            //     // }
+            // },
             'sort': function sort(a, b) {
 
                 window.sortItem = window.sortItem || 'name';
@@ -61442,9 +61502,17 @@ $(document).ready(function () {
             var email = $('#email-about').val();
 
             axios.post('/employee/delete', { 'email': email }).then(function (response) {
-                __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()("Сотрудник был успешно удалён с базы данных!", {
-                    icon: "success"
-                });
+                console.log(response.status);
+                console.log(response);
+
+                if (response.status == 200) {
+                    __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()("Сотрудник был успешно удалён с базы данных!", {
+                        icon: "success"
+                    }).then(function () {
+                        console.log("THEN");
+                        window.open('/home', '_blank');
+                    });
+                }
             }).catch(function (error) {
                 __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()("Ошибка во время ajax-запроса!", {
                     icon: "error"

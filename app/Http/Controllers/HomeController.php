@@ -126,7 +126,11 @@ class HomeController extends Controller
     {
         $str = $request->str;
 
-        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('date_of_employment', 'LIKE', ['%' . $str . '%'])->orWhereRaw('name LIKE ?', ['%' . $str . '%'])->orWhereRaw('position LIKE ?', ['%' . $str . '%'])->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])->get();
+        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
+//            ->orWhereRaw('date_of_employment', 'LIKE', ['%' . $str . '%'])
+            ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
+            ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
+            ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])->get();
 
         if($collection->isEmpty()){
             return response('No records found', 200);
@@ -275,25 +279,65 @@ class HomeController extends Controller
     public function deleteEmployee(Request $request)
     {
 
-        $ids = DB::table('employees')->where('email', '=', $request->email)->first()->id;
+//        $ids = DB::table('employees')->where('email', '=', $request->email)->first()->id;
 
-        $ids = collect($ids);
+//        $employee = DB::table('employees')->where('email', '=', $request->email)->first();
 
-        $idsToRemove = collect([]);
+        $employee = Employee::where('email', '=', $request->email)->first();
 
-        $idsToRemove = $idsToRemove->merge($ids)->unique();
+        $subordinatesIds = $employee->children()->get()->pluck('id');
 
-        while($ids->isNotEmpty()){
+        if ($subordinatesIds->count() !== 0 ) {
 
-            $ids = DB::table('employees')->whereIn('parent_id', $ids->toArray())->get()->pluck('id');
+            if ($employee->parent_id === 0){
+                $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
+            }
+            else{
+                $parent = Employee::find($employee->parent_id);
 
-            $idsToRemove = $idsToRemove->merge($ids)->unique();
+                $siblings = $parent->children()->get()->pluck('id');
 
+                if ($siblings->count() <=1 ){
+                    $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
+                }
+            }
+
+            $siblings = $siblings->reject(function ($value, $key)use($employee){
+                return $value === $employee->id;
+            });
+
+            $subordinatesIds = $employee->children()->get()->pluck('id');
+
+            foreach ($subordinatesIds as $subordinatesId) {
+
+                $subordinate = Employee::find($subordinatesId);
+                $subordinate->parent_id = $siblings->random();
+
+                $subordinate->save();
+
+            }
         }
 
-        DB::table('employees')->whereIn('parent_id', $idsToRemove->toArray())->delete();
+        $employee->delete();
 
-        DB::table('employees')->where('email', '=', $request->email)->delete();
+
+//        $ids = collect($ids);
+//
+//        $idsToRemove = collect([]);
+//
+//        $idsToRemove = $idsToRemove->merge($ids)->unique();
+//
+//        while($ids->isNotEmpty()){
+//
+//            $ids = DB::table('employees')->whereIn('parent_id', $ids->toArray())->get()->pluck('id');
+//
+//            $idsToRemove = $idsToRemove->merge($ids)->unique();
+//
+//        }
+//
+//        DB::table('employees')->whereIn('parent_id', $idsToRemove->toArray())->delete();
+//
+//        DB::table('employees')->where('email', '=', $request->email)->delete();
 
         return response ("Удаление произведено успешно!", 200);
 
@@ -405,7 +449,7 @@ class HomeController extends Controller
 
 //        $employee->save();
 
-        if ($newParentId === 0){
+        if ($newParentId == 0){
             $employee->hierarchy_level = 1;
         }
         else{
