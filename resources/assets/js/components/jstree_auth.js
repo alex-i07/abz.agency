@@ -242,9 +242,9 @@ $(document).ready(function() {
                 }
 
                 else if (window.sortItem === 'date_of_employment') {
-                    var cmp1 = moment(a1.original[window.sortItem], 'YYYY-MM-DD').valueOf();
+                    var cmp1 = moment(a1.original[window.sortItem], 'DD-MM-YYYY').valueOf();
 
-                    var cmp2 = moment(b1.original[window.sortItem], 'YYYY-MM-DD').valueOf();
+                    var cmp2 = moment(b1.original[window.sortItem], 'DD-MM-YYYY').valueOf();
                 }
 
                 else {
@@ -312,10 +312,10 @@ $(document).ready(function() {
                                     //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                     //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
 
-                                    value.text = '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
+                                    value.text = '<span class="record name">' + value.name + '</span>' +
                                         // '<img src="https://via.placeholder.com/50x50">' +
                                         '<span class="record position">' + value.position + '</span>' +
-                                        '<span class="record date_of_employment">' + moment(value.date_of_employment).format('DD.MM.YYYY') + '</span>' +
+                                        '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
                                         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                         '<span class="badge">' + value.childrenNumber + '</span>';
                                 });
@@ -345,6 +345,7 @@ $(document).ready(function() {
                                 // });
                             }
 
+                            console.log('SEARCH MARKER');
                            return callback(response.data);
                             // callback([]);
                         })
@@ -413,6 +414,15 @@ $(document).ready(function() {
                     });
                     console.log(error);
                 });
+        }).bind("search.jstree", function (nodes, str, res) {
+
+            $('.modal').removeClass('show');
+
+            console.log(nodes);
+
+            $('#search-input').val('');
+
+            console.info('THE SEARCH IS COMPLETE');
         });
 
         // $(document).on('search.jstree', function (nodes, str, res) {
@@ -458,16 +468,24 @@ $(document).ready(function() {
             //     });
         });
 
-        var to = false;
-        $('#search').keyup(function () {
-            if(to) { clearTimeout(to); }
-            to = setTimeout(function () {
-                var v = $('#search').val();
+        $('#search-button').on('click', function (e) {
+            e.preventDefault();
+            var v = $('#search-input').val();
+            $('#jstree_auth').jstree(true).search(v);
 
-                $('#jstree_auth').jstree(true).search(v);
-
-            }, 500);
+            $('.modal').addClass('show');
         });
+
+        // var to = false;
+        // $('#search').keyup(function () {
+        //     if(to) { clearTimeout(to); }
+        //     to = setTimeout(function () {
+        //         var v = $('#search').val();
+        //
+        //         $('#jstree_auth').jstree(true).search(v);
+        //
+        //     }, 500);
+        // });
 
     });
 });

@@ -14,9 +14,15 @@
 
 
 
-                <div class="form-group col-sm-4 col-md-offset-4">
-                    <input type="text" class="form-control" id="search" placeholder="Search here">
-                </div>
+                <form>
+                    <div class="form-group col-sm-3 col-md-offset-4">
+                        <input type="text" class="form-control" id="search-input" placeholder="Search here">
+                    </div>
+
+                    <button id="search-button" type="submit" class="btn btn-info col-sm-1">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button>
+                </form>
 
             </div>
 
@@ -35,7 +41,7 @@
                     <div id="jstree_auth"></div>
 
                 </div>
-
+            <div class="modal"></div>
         </div>
     </div>
 </div>

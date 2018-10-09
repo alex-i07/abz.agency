@@ -30,7 +30,7 @@ $( document ).ready(function() {
                                 data.forEach(function (value) {
                                     value.text = '<span class="record name">' + value.name + '</span>' +
                                         '<span class="record position">' + value.position + '</span>' +
-                                        '<span class="record date_of_employment">' + moment(value.date_of_employment).format('DD.MM.YYYY')  + '</span>' +
+                                        '<span class="record date_of_employment">' + value.date_of_employment  + '</span>' +
                                         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                         '<span class="badge">' + value.childrenNumber + '</span>';
                                 })

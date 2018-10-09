@@ -22,12 +22,11 @@ class createEmployeesTable extends Migration
 			$table->string("email",255)->unique();
 			$table->string("password",255);
 			$table->string("position",255);
-			$table->date("date_of_employment");
+			$table->string("date_of_employment", 50);
 			$table->decimal("salary",10,2);
 			$table->string("remember_token",100)->nullable();
 			$table->timestamp("created_at")->nullable();
 			$table->timestamp("updated_at")->nullable();
-
         });
     }
 

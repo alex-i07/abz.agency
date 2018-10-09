@@ -9667,6 +9667,21 @@ hr {
   top: 10px;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.8) url(/images/loading.gif?44eacb373ea391cd010895f7d278a7d6) 50% 50% no-repeat;
+}
+
+.modal .show {
+  display: block;
+}
+
 @-webkit-keyframes passing-through {
   0% {
     opacity: 0;

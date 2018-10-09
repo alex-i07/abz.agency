@@ -127,7 +127,7 @@ class HomeController extends Controller
         $str = $request->str;
 
         $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
-//            ->orWhereRaw('date_of_employment', 'LIKE', ['%' . $str . '%'])
+            ->where('date_of_employment', 'LIKE', ['%' . $str . '%'])
             ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
             ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
             ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])->get();
@@ -142,14 +142,13 @@ class HomeController extends Controller
 
             $currentParentId = $value->parent_id;
 
-            while($currentParentId > 0) {
+            while($currentParentId > 0) { //or >=0?
 
                 $parent = DB::table('employees')->select('id', 'parent_id')->where('id', $currentParentId)->first();
 
                 if ($parent !==null){
 
                     $id = $parent->id;
-
                     $allParentIds->prepend($id);
 
                     $currentParentId = $parent->parent_id;
@@ -163,7 +162,7 @@ class HomeController extends Controller
 
         $result = $allParentIds->unique();
 
-        $result = array_values($allParentIds->toArray());
+        $result = array_values($result->toArray());
 
         return response($result, 200);
 
@@ -285,38 +284,40 @@ class HomeController extends Controller
 
         $employee = Employee::where('email', '=', $request->email)->first();
 
-        $subordinatesIds = $employee->children()->get()->pluck('id');
+        $this->distributeSubordinates($employee);
 
-        if ($subordinatesIds->count() !== 0 ) {
-
-            if ($employee->parent_id === 0){
-                $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
-            }
-            else{
-                $parent = Employee::find($employee->parent_id);
-
-                $siblings = $parent->children()->get()->pluck('id');
-
-                if ($siblings->count() <=1 ){
-                    $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
-                }
-            }
-
-            $siblings = $siblings->reject(function ($value, $key)use($employee){
-                return $value === $employee->id;
-            });
-
-            $subordinatesIds = $employee->children()->get()->pluck('id');
-
-            foreach ($subordinatesIds as $subordinatesId) {
-
-                $subordinate = Employee::find($subordinatesId);
-                $subordinate->parent_id = $siblings->random();
-
-                $subordinate->save();
-
-            }
-        }
+//        $subordinatesIds = $employee->children()->get()->pluck('id');
+//
+//        if ($subordinatesIds->count() !== 0 ) {
+//
+//            if ($employee->parent_id === 0){
+//                $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
+//            }
+//            else{
+//                $parent = Employee::find($employee->parent_id);
+//
+//                $siblings = $parent->children()->get()->pluck('id');
+//
+//                if ($siblings->count() <=1 ){
+//                    $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
+//                }
+//            }
+//
+//            $siblings = $siblings->reject(function ($value, $key)use($employee){
+//                return $value === $employee->id;
+//            });
+//
+//            $subordinatesIds = $employee->children()->get()->pluck('id');
+//
+//            foreach ($subordinatesIds as $subordinatesId) {
+//
+//                $subordinate = Employee::find($subordinatesId);
+//                $subordinate->parent_id = $siblings->random();
+//
+//                $subordinate->save();
+//
+//            }
+//        }
 
         $employee->delete();
 
@@ -459,6 +460,8 @@ class HomeController extends Controller
 
             $employee->hierarchy_level = $newHierarchyLevel - 1;
         }
+
+        $this->distributeSubordinates($employee);
 
         $employee->save();
 
@@ -617,6 +620,42 @@ class HomeController extends Controller
 //        });
 
 
+    }
+
+    protected function distributeSubordinates(Employee $employee)
+    {
+        $subordinatesIds = $employee->children()->get()->pluck('id');
+
+        if ($subordinatesIds->count() > 0 ) {
+
+            if ($employee->parent_id === 0){
+                $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
+            }
+            else{
+                $parent = Employee::find($employee->parent_id);
+
+                $siblings = $parent->children()->get()->pluck('id');
+
+                if ($siblings->count() <=1 ){
+                    $siblings = DB::table('employees')->where('hierarchy_level', '=', $employee->hierarchy_level)->get()->pluck('id');
+                }
+            }
+
+            $siblings = $siblings->reject(function ($value, $key)use($employee){
+                return $value === $employee->id;
+            });
+
+            $subordinatesIds = $employee->children()->get()->pluck('id');
+
+            foreach ($subordinatesIds as $subordinatesId) {
+
+                $subordinate = Employee::find($subordinatesId);
+                $subordinate->parent_id = $siblings->random();
+
+                $subordinate->save();
+
+            }
+        }
     }
 
 }
