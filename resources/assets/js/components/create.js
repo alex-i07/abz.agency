@@ -14,8 +14,10 @@ $(document).ready(function () {
 
     var selectChiefs = document.getElementById("chiefs-create");
 
+    //check if inputs with ids 'hierarchy-create' and 'chiefs-create' are exist
+    //i.e. this is page /create
+
     if (selectLevels !=null && selectChiefs !=null) {
-        console.log(chiefsPerLevel, typeof chiefsPerLevel, selectLevels, typeof selectLevels, selectChiefs, typeof selectChiefs);
 
         var dropzoneCreate = new Dropzone("#dropzone-create", {
             url: "create",
@@ -27,6 +29,8 @@ $(document).ready(function () {
             maxFiles: 2,
             maxFilesize: 3,
             resizeHeight: 120,
+            resizeWidth: 120,
+            resizeMethod: 'crop',
             dictFileTooBig: 'Разрешены только файлы размером менее 3МБ',
             previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  " +
             "<div class=\"dz-image\"><img data-dz-thumbnail /></div>\n  " +
@@ -54,6 +58,8 @@ $(document).ready(function () {
 
                 this.on("addedfile", function (file) {
 
+                    //remove previous file from Dropzone if new file was uploaded
+
                     if (typeof this.files[1] !== 'undefined') {
                         dzClosure.removeFile(this.files[0]);
 
@@ -62,41 +68,27 @@ $(document).ready(function () {
 
                 });
 
-                this.on('thumbnail', function (file, dataURL) {
-
-                    //file here is original, not a thumbnail, but dataURL is a base64 code of a thumbnail
-
-                    console.log(file);
-
-                    // self.thumbnail = dataURL;
-
-                });
-
                 this.on('sending', function(file, xhr, formData) {
+
+                    //append data from form to Dropzone before sending ajax request
 
                     formData.append("name",  $('#name-create').val());  //this is dropzone formdata I assume
                     formData.append("email",  $('#email-create').val());
                     formData.append("password",  $('#password-create').val());
                     formData.append("position",  $('#position-create').val());
-                    formData.append("date_of_employment",  moment($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
+                    formData.append("date_of_employment",  $('#date_of_employment-create').val());
                     formData.append("salary",  $('#salary-create').val());
                     formData.append("hierarchy_level",  $('#hierarchy_level-create').val());
                     formData.append("parent_id",  $('#parent_id-create').val());
 
-                    console.log(formData);
                 });
 
                 this.on('success', function (file, response){
-                    console.log(response);
 
-
-                        window.location = '/employee/' + response + '/edit';
-
+                    window.location = '/employee/' + response + '/edit';
 
                 });
                 this.on('error', function (file, error, xhr)  {
-                    console.log(error);
-                    console.log(xhr);
 
                     swal({
                         title: 'An error has occurred during AJAX request!',
@@ -109,11 +101,10 @@ $(document).ready(function () {
             }
         });
 
-        console.log('CHIEFSPERLEVEL', window.chiefsPerLevel);
-        // var chiefsPerLevelObject = JSON.parse(chiefsPerLevel);
-
-        //Let set hierarchy and chief selects
         var index;
+
+        //chiefsPerLevel is a variable from php that denotes what employees at their hierarchy level
+        //{1: {id: 0, name: "Нет начальника"}, 2: [{'id': 'id', 'name':employee1}, {'id': 'id', 'name':employee2}]}
 
         for(index in window.chiefsPerLevel) {
 
@@ -121,13 +112,16 @@ $(document).ready(function () {
 
         }
 
+        //create options in select chiefs-create with employees of 1st hierarchy level
+
         window.chiefsPerLevel[1].forEach(function(item){
             selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
         });
 
-
-
         $('#hierarchy-create').on('change', function (e) {
+
+            //when selection in hierarchy-create select input changes
+            //refill chiefs-create select with new employees of selected level
 
             $('#chiefs-create').empty();
 
@@ -138,11 +132,13 @@ $(document).ready(function () {
     }
 
     $('#apply-create').on('click', function (e) {
-        console.log("SUBMIT WAS Presses!");
 
         e.preventDefault();
         e.stopPropagation();
-console.log(dropzoneCreate.getQueuedFiles().length);
+
+        //if there is uploaded image use dropzone to send ajax request, otherwise send usual form submit
+        //because dropzon library will not process only form data without any file
+
         if (dropzoneCreate.getQueuedFiles().length > 0) {
             dropzoneCreate.processQueue();
         } else {

@@ -12,8 +12,7 @@ window.Dropzone.autoDiscover = false;
 $(document).ready(function () {
 
     var form = document.getElementById("dropzone-about");
-console.log(($('#dropzone-about').length), '($(dropzone).length)');
-    // if(form !== null){
+
     if ($('#dropzone-about').length) {
 
         var dropzoneAbout = new Dropzone("#dropzone-about", {
@@ -26,6 +25,8 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
             maxFiles: 2,
             maxFilesize: 3,
             resizeHeight: 120,
+            resizeWidth: 120,
+            resizeMethod: 'crop',
             dictFileTooBig: 'Разрешены только файлы размером менее 3МБ',
             previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  " +
             "<div class=\"dz-image\"><img data-dz-thumbnail /></div>\n  " +
@@ -61,40 +62,23 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
 
                 });
 
-                this.on('thumbnail', function (file, dataURL) {
-
-                    //file here is original, not a thumbnail, but dataURL is a base64 code of a thumbnail
-
-                    console.log(file);
-
-                    // self.thumbnail = dataURL;
-
-                });
-
                 this.on('sending', function(file, xhr, formData) {
 
                     formData.append("name",  $('#name-about').val());  //this is dropzone formdata I assume
                     formData.append("email",  $('#email-about').val());
-                    formData.append("password",  $('#password-about').val());
                     formData.append("position",  $('#position-about').val());
-                    formData.append("date_of_employment",  moment($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
+                    formData.append("date_of_employment", $('#date_of_employment-about').val());
                     formData.append("salary",  $('#salary-about').val());
                     formData.append("parent_id",  $('#parent_id-about').val());
 
-                    console.log(formData);
                 });
 
                 this.on('success', function (file, response){
-                    console.log(response);
-
 
                     window.location = response;
 
-
                 });
                 this.on('error', function (file, error, xhr)  {
-                    console.log(error);
-                    console.log(xhr);
 
                     swal({
                         title: 'An error has occurred during AJAX request!',
@@ -104,9 +88,6 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
                     });
                 });
 
-                console.log("EMPLOYEE", window.employee);
-                // var employee = JSON.parse(employee);
-
                 //need to create thumbnail and display it if user has an avatar
                 //for that I imitate file upload: create an empty file and display it thumbnail, thumbnail url points to user avatar
 
@@ -114,16 +95,9 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
                     var mockFile = { name: "Filename", size: 12345 };
                     this.emit("addedfile", mockFile);
 
-                    console.log(window.employee);
-
                     this.files[0] = mockFile;
-                    console.log(this.files, typeof this.files, 'this.files');
 
                     this.emit("thumbnail", mockFile, 'http://' + window.location.host + '/storage/users-avatars/' + window.employee.avatar);
-                    // dropzoneAbout.createThumbnailFromUrl(mockFile, window.employee.avatar);
-
-                    // var existingFileCount = 1; // The number of files already uploaded
-                    // this.options.maxFiles = this.options.maxFiles - existingFileCount;
                 }
 
             }
@@ -135,14 +109,11 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
 
             axios.post('/employee/delete', {'email':email})
                 .then(function (response) {
-                    console.log(response.status);
-                    console.log(response);
 
                     if (response.status == 200){
                         swal("Сотрудник был успешно удалён с базы данных!", {
                             icon: "success"
                         }).then(function() {
-                            console.log("THEN");
                             window.open('/home', '_blank');
                         });
                     }
@@ -157,17 +128,14 @@ console.log(($('#dropzone-about').length), '($(dropzone).length)');
     }
 
     $('#apply-about').on('click', function (e) {
-        console.log("SUBMIT WAS Presses!");
 
         e.preventDefault();
         e.stopPropagation();
-        console.log(dropzoneAbout.getQueuedFiles().length);
+
         if (dropzoneAbout.getQueuedFiles().length > 0) {
             dropzoneAbout.processQueue();
         } else {
             $("#dropzone-about").submit();
         }
     });
-
-
 });

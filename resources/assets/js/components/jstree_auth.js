@@ -130,37 +130,25 @@ $(document).ready(function() {
                             'auth-fetch-roots' :
                             'auth-fetch-children/' + node.id;
                     },
-                    'success': function (data) {   //list-group-item
+                    'success': function (data) {
 
                         data.forEach(function (value) {
 
-                            // value.text = value.name;
-
-                            // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                            //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                            //     // '<img src="https://via.placeholder.com/50x50">' +
-                            //     '<span class="record position">' + value.position + '</span>' +
-                            //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                            //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                            //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-
                             value.text = '<span class="record name">' + value.name + '</span>' +
-                                // '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                                // '<img src="https://via.placeholder.com/50x50">' +
                                 '<span class="record position">' + value.position + '</span>' +
-                                '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                                '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
                                 '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                 '<span class="badge">' + value.childrenNumber + '</span>';
                         })
                     },
                     'error': function (error) {
 
-                        // swal({
-                        //     title: 'An error has occurred during AJAX request!',
-                        //     text: 'Please, try again later',
-                        //     icon: 'error',
-                        //     closeModal: false
-                        // });
+                        swal({
+                            title: 'An error has occurred during AJAX request!',
+                            text: 'Please, try again later',
+                            icon: 'error',
+                            closeModal: false
+                        });
 
                         console.log(error);
                     }
@@ -176,12 +164,7 @@ $(document).ready(function() {
                             "separator_after": true,
                             "label": "Подробнее",
                             "action": function (node) {
-                                // console.log(tree.get_node (node));
                                 window.open('/employee/' + tree.get_selected(node)[0].id + '/edit', '_blank');
-                                // $node = tree.create_node($node);
-                                // tree.edit($node);
-
-                                // console.log(tree.get_selected(node)[0].id);
                             }
 
                         },
@@ -190,12 +173,7 @@ $(document).ready(function() {
                             "separator_after": true,
                             "label": "Создать нового сотрудника",
                             "action": function (node) {
-                                // console.log(tree.get_node (node));
                                 window.open('/create-form', '_blank');
-                                // $node = tree.create_node($node);
-                                // tree.edit($node);
-
-                                // console.log(tree.get_selected(node)[0].id);
                             }
 
                         }
@@ -203,30 +181,7 @@ $(document).ready(function() {
 
                 }
             },
-            //     'items': {
-            //         'about': {
-            //             'label': function (node) {
-            //                 return '<a class="list-group-item" href="#">Подробнее1';
-            //             },
-            //             'action': function (node) {
-            //                 // console.log($(node).attr('id'));
-            //                 console.log(node);
-            //                 console.log(get_node (node));
-            //                 window.open('/employee/' + node.id + '/edit', '_blank');
-            //                 // return '<a class="list-group-item" href="/employee/' + node.id + '/edit">Подробнее</a>';
-            //             }
-            //         }
-            //     },
-            //     // 'items': function (node, callback) {
-            //     //     console.log(node.id);
-            //     //     return callback(['Поподробнее', function (node) {
-            //     //                     console.log(node.id);
-            //     //                     window.open('/employee/' + node.id + '/edit', '_blank');}]);
-            //     //
-            //     // }
-            // },
             'sort' : function(a, b) {
-
 
                 window.sortItem = window.sortItem || 'name';
 
@@ -242,9 +197,9 @@ $(document).ready(function() {
                 }
 
                 else if (window.sortItem === 'date_of_employment') {
-                    var cmp1 = moment(a1.original[window.sortItem], 'DD-MM-YYYY').valueOf();
+                    var cmp1 = moment(a1.original[window.sortItem], 'DD.MM.YYYY').valueOf();
 
-                    var cmp2 = moment(b1.original[window.sortItem], 'DD-MM-YYYY').valueOf();
+                    var cmp2 = moment(b1.original[window.sortItem], 'DD.MM.YYYY').valueOf();
                 }
 
                 else {
@@ -265,15 +220,12 @@ $(document).ready(function() {
             'search': {
                 'ajax': {
                     'url': '/search',
-                    // "url" : "fetch-massload",
                     'dataType': 'json',
                     'type': 'GET'
                 }
             },
 
             "massload": function(nodes, callback) {
-
-                console.log('MARKER');
 
                 var notLoadedNodes = [];
                 for (var key in nodes) {
@@ -283,71 +235,28 @@ $(document).ready(function() {
                     }
                 }
                 if (notLoadedNodes.length === 0) {
-                    callback([]);
-                    return;
+                    return callback([]);
                 }
 
                 else {
-                    // callback(notLoadedNodes);
-
                     axios.post('/fetch-massload', { ids: notLoadedNodes.join(',') }
                     )
                         .then(function (response) {
-                            console.log(response.data);
 
                             for (var key in nodes) {
                                 if (!nodes.hasOwnProperty(key)) continue;
-                                // console.log(nodes[key], typeof nodes[key], key, typeof key, 'nodes[key]');
-                                console.log(response.data[nodes[key]], 'nodes');
 
                                 response.data[nodes[key]].forEach(function (value) {
 
-                                    // value.text = value.name;
-
-                                    // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                                    //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                                    //     // '<img src="https://via.placeholder.com/50x50">' +
-                                    //     '<span class="record position">' + value.position + '</span>' +
-                                    //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                                    //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                                    //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-
                                     value.text = '<span class="record name">' + value.name + '</span>' +
-                                        // '<img src="https://via.placeholder.com/50x50">' +
                                         '<span class="record position">' + value.position + '</span>' +
-                                        '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
+                                        '<span class="record date_of_employment">' + moment(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' +
                                         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
                                         '<span class="badge">' + value.childrenNumber + '</span>';
                                 });
 
-
-                                // for(var j in nodes[key]) {
-                                //     console.log(nodes[key][j]);
-                                // }
-                                // nodes[key].forEach(function (value) {
-                                //
-                                //     // value.text = value.name;
-                                //
-                                //     // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                                //     //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                                //     //     // '<img src="https://via.placeholder.com/50x50">' +
-                                //     //     '<span class="record position">' + value.position + '</span>' +
-                                //     //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                                //     //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                                //     //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-                                //
-                                //     value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
-                                //         // '<img src="https://via.placeholder.com/50x50">' +
-                                //         '<span class="record position">' + value.position + '</span>' +
-                                //         '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                                //         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                                //         '<span class="badge">' + value.childrenNumber + '</span>';
-                                // });
                             }
-
-                            console.log('SEARCH MARKER');
                            return callback(response.data);
-                            // callback([]);
                         })
                         .catch(function (error) {
                             swal({
@@ -359,47 +268,12 @@ $(document).ready(function() {
                             console.log(error);
                         });
                 }
-
-
-                // $.get('/fetch-massload', {ids: notLoadedNodes.join(',')})
-                //     .done(function (data) {
-                //         // data = null;
-                //         console.log(data);
-                //         return data;
-                //         // callback(data); // data needs to be a JSON object like: { "node_id" : { "id" : node_id, "text" : "asdf", ... }, other_node_id : { ... node data ...}  }
-                //     });
-                // return notLoadedNodes;
-                // $.get('/fetch-massload', {'ids': nodes.join(',')})
-            // },
-            // .done(function (data) {
-            //     callback(data); // data needs to be a JSON object like: { "node_id" : { "id" : node_id, "text" : "asdf", ... }, other_node_id : { ... node data ...}  }
-            // })
-
-            // 'massload' : function (nodes, callback) {
-            //     $.get('/fetch-massload', {'ids': nodes.join(',')}) // example only
-            //
             },
-            // "massload" : {
-            //     "url" : "fetch-massload",
-            //     "dataType" : "json",
-            //     "type": "get",
-            //     "data" : function (nodes) {
-            //         return {
-            //             "ids" : nodes.join(",")
-            //         };
-            //     }
-            // }
         }).bind("move_node.jstree", function (e, data) {
-            // data.rslt.o is a list of objects that were moved
-            // Inspect data using your fav dev tools to see what the properties are
-
-            console.log('move_node.jstree, data', data);
 
             var oldParentId = Number(data.old_parent === '#' ? 0 : data.old_parent), newParentId = Number(data.parent === '#' ? 0 : data.parent);
 
             var send = {'id': data.node.id, 'oldParentId': oldParentId, 'newParentId': newParentId};
-
-            console.log('ForSend', send);
 
             axios.post('drag-n-drop', send)
                 .then(function (response) {
@@ -418,74 +292,21 @@ $(document).ready(function() {
 
             $('.modal').removeClass('show');
 
-            console.log(nodes);
-
             $('#search-input').val('');
 
             console.info('THE SEARCH IS COMPLETE');
         });
 
-        // $(document).on('search.jstree', function (nodes, str, res) {
-        //     console.log('SEARCH IS COMPLETE');
-        //     console.log(nodes, typeof nodes);
-        //     console.log(str, typeof str);
-        //     console.log(res, typeof res);
-        // });
-
-        $(document).on('dnd_stop.vakata', function (e, data) {
-            var ref = $('#jstree_auth').jstree(true);
-            // console.log("REF", ref);
-
-            var elementId = ref.get_node(data.element).id;
-            var parentId = ref.get_node(data.element).parent;
-
-            if (parentId === '#') {
-                parentId = 0;
-            }
-
-            // console.log('DATA.ELEMENT', ref.get_node(data.element));
-            //
-            // console.log('ELEMENT-ID', ref.get_node(data.element).id);
-            //
-            // console.log("FUTURE PARENT", parentId, typeof parentId);
-            //
-            // var send = {'elementId': elementId, 'parentId': parentId};
-            //
-            // console.log('SEND', send, typeof send);
-
-            // axios.post('drag-n-drop', send)
-            //     .then(function (response) {
-            //         console.log(response);
-            //     })
-            //     .catch(function (error) {
-            //         swal({
-            //             title: 'An error has occurred during AJAX request!',
-            //             text: 'Drag-n-drop might not be saved. Please, try again later',
-            //             icon: 'error',
-            //             closeModal: false
-            //         });
-            //         console.log(error);
-            //     });
-        });
-
         $('#search-button').on('click', function (e) {
             e.preventDefault();
-            var v = $('#search-input').val();
-            $('#jstree_auth').jstree(true).search(v);
+            var searchString = $('#search-input').val();
+
+            if (moment(searchString, 'DD.MM.YYYY').isValid()){
+                searchString = moment(searchString, 'DD.MM.YYYY').format('YYYY-MM-DD');
+            }
+            $('#jstree_auth').jstree(true).search(searchString);
 
             $('.modal').addClass('show');
         });
-
-        // var to = false;
-        // $('#search').keyup(function () {
-        //     if(to) { clearTimeout(to); }
-        //     to = setTimeout(function () {
-        //         var v = $('#search').val();
-        //
-        //         $('#jstree_auth').jstree(true).search(v);
-        //
-        //     }, 500);
-        // });
-
     });
 });

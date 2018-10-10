@@ -60436,7 +60436,7 @@ $(document).ready(function () {
                     'success': function success(data) {
 
                         data.forEach(function (value) {
-                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
                     },
                     'error': function error(_error) {
@@ -61046,34 +61046,20 @@ $(document).ready(function () {
                         return node.id === '#' ? 'auth-fetch-roots' : 'auth-fetch-children/' + node.id;
                     },
                     'success': function success(data) {
-                        //list-group-item
 
                         data.forEach(function (value) {
 
-                            // value.text = value.name;
-
-                            // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                            //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                            //     // '<img src="https://via.placeholder.com/50x50">' +
-                            //     '<span class="record position">' + value.position + '</span>' +
-                            //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                            //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                            //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-
-                            value.text = '<span class="record name">' + value.name + '</span>' +
-                            // '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                            // '<img src="https://via.placeholder.com/50x50">' +
-                            '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                            value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                         });
                     },
                     'error': function error(_error) {
 
-                        // swal({
-                        //     title: 'An error has occurred during AJAX request!',
-                        //     text: 'Please, try again later',
-                        //     icon: 'error',
-                        //     closeModal: false
-                        // });
+                        __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
+                            title: 'An error has occurred during AJAX request!',
+                            text: 'Please, try again later',
+                            icon: 'error',
+                            closeModal: false
+                        });
 
                         console.log(_error);
                     }
@@ -61089,12 +61075,7 @@ $(document).ready(function () {
                             "separator_after": true,
                             "label": "Подробнее",
                             "action": function action(node) {
-                                // console.log(tree.get_node (node));
                                 window.open('/employee/' + tree.get_selected(node)[0].id + '/edit', '_blank');
-                                // $node = tree.create_node($node);
-                                // tree.edit($node);
-
-                                // console.log(tree.get_selected(node)[0].id);
                             }
 
                         },
@@ -61103,40 +61084,13 @@ $(document).ready(function () {
                             "separator_after": true,
                             "label": "Создать нового сотрудника",
                             "action": function action(node) {
-                                // console.log(tree.get_node (node));
                                 window.open('/create-form', '_blank');
-                                // $node = tree.create_node($node);
-                                // tree.edit($node);
-
-                                // console.log(tree.get_selected(node)[0].id);
                             }
 
                         }
                     };
                 }
             },
-            //     'items': {
-            //         'about': {
-            //             'label': function (node) {
-            //                 return '<a class="list-group-item" href="#">Подробнее1';
-            //             },
-            //             'action': function (node) {
-            //                 // console.log($(node).attr('id'));
-            //                 console.log(node);
-            //                 console.log(get_node (node));
-            //                 window.open('/employee/' + node.id + '/edit', '_blank');
-            //                 // return '<a class="list-group-item" href="/employee/' + node.id + '/edit">Подробнее</a>';
-            //             }
-            //         }
-            //     },
-            //     // 'items': function (node, callback) {
-            //     //     console.log(node.id);
-            //     //     return callback(['Поподробнее', function (node) {
-            //     //                     console.log(node.id);
-            //     //                     window.open('/employee/' + node.id + '/edit', '_blank');}]);
-            //     //
-            //     // }
-            // },
             'sort': function sort(a, b) {
 
                 window.sortItem = window.sortItem || 'name';
@@ -61151,9 +61105,9 @@ $(document).ready(function () {
 
                     var cmp2 = Number(b1.original[window.sortItem]);
                 } else if (window.sortItem === 'date_of_employment') {
-                    var cmp1 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(a1.original[window.sortItem], 'DD-MM-YYYY').valueOf();
+                    var cmp1 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(a1.original[window.sortItem], 'DD.MM.YYYY').valueOf();
 
-                    var cmp2 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(b1.original[window.sortItem], 'DD-MM-YYYY').valueOf();
+                    var cmp2 = __WEBPACK_IMPORTED_MODULE_0_moment___default()(b1.original[window.sortItem], 'DD.MM.YYYY').valueOf();
                 } else {
                     var cmp1 = a1.original[window.sortItem];
 
@@ -61169,15 +61123,12 @@ $(document).ready(function () {
             'search': {
                 'ajax': {
                     'url': '/search',
-                    // "url" : "fetch-massload",
                     'dataType': 'json',
                     'type': 'GET'
                 }
             },
 
             "massload": function massload(nodes, callback) {
-
-                console.log('MARKER');
 
                 var notLoadedNodes = [];
                 for (var key in nodes) {
@@ -61187,63 +61138,19 @@ $(document).ready(function () {
                     }
                 }
                 if (notLoadedNodes.length === 0) {
-                    callback([]);
-                    return;
+                    return callback([]);
                 } else {
-                    // callback(notLoadedNodes);
-
                     axios.post('/fetch-massload', { ids: notLoadedNodes.join(',') }).then(function (response) {
-                        console.log(response.data);
 
                         for (var key in nodes) {
                             if (!nodes.hasOwnProperty(key)) continue;
-                            // console.log(nodes[key], typeof nodes[key], key, typeof key, 'nodes[key]');
-                            console.log(response.data[nodes[key]], 'nodes');
 
                             response.data[nodes[key]].forEach(function (value) {
 
-                                // value.text = value.name;
-
-                                // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                                //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                                //     // '<img src="https://via.placeholder.com/50x50">' +
-                                //     '<span class="record position">' + value.position + '</span>' +
-                                //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                                //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                                //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-
-                                value.text = '<span class="record name">' + value.name + '</span>' +
-                                // '<img src="https://via.placeholder.com/50x50">' +
-                                '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + value.date_of_employment + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
+                                value.text = '<span class="record name">' + value.name + '</span>' + '<span class="record position">' + value.position + '</span>' + '<span class="record date_of_employment">' + __WEBPACK_IMPORTED_MODULE_0_moment___default()(value.date_of_employment, 'YYYY-MM-DD').format('DD.MM.YYYY') + '</span>' + '<span class="record salary">' + value.salary + 'грн.' + '</span>' + '<span class="badge">' + value.childrenNumber + '</span>';
                             });
-
-                            // for(var j in nodes[key]) {
-                            //     console.log(nodes[key][j]);
-                            // }
-                            // nodes[key].forEach(function (value) {
-                            //
-                            //     // value.text = value.name;
-                            //
-                            //     // value.text = '<span class="record name list-group-item list-group-item-action flex-column align-items-start">oioi</span>';
-                            //     //     '<a href="employee/' + value.id + '/edit' +'" class="record name" target="_blank">' + value.name + '</a>' +
-                            //     //     // '<img src="https://via.placeholder.com/50x50">' +
-                            //     //     '<span class="record position">' + value.position + '</span>' +
-                            //     //     '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                            //     //     '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                            //     //     '<span class="badge">' + value.childrenNumber + '</span>' + '</span>';
-                            //
-                            //     value.text = '<a href="employee/' + value.id + '/edit' + '" class="record name" target="_blank">' + value.name + '</a>' +
-                            //         // '<img src="https://via.placeholder.com/50x50">' +
-                            //         '<span class="record position">' + value.position + '</span>' +
-                            //         '<span class="record date_of_employment">' + value.date_of_employment + '</span>' +
-                            //         '<span class="record salary">' + value.salary + 'грн.' + '</span>' +
-                            //         '<span class="badge">' + value.childrenNumber + '</span>';
-                            // });
                         }
-
-                        console.log('SEARCH MARKER');
                         return callback(response.data);
-                        // callback([]);
                     }).catch(function (error) {
                         __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
                             title: 'An error has occurred during AJAX request!',
@@ -61254,47 +61161,13 @@ $(document).ready(function () {
                         console.log(error);
                     });
                 }
-
-                // $.get('/fetch-massload', {ids: notLoadedNodes.join(',')})
-                //     .done(function (data) {
-                //         // data = null;
-                //         console.log(data);
-                //         return data;
-                //         // callback(data); // data needs to be a JSON object like: { "node_id" : { "id" : node_id, "text" : "asdf", ... }, other_node_id : { ... node data ...}  }
-                //     });
-                // return notLoadedNodes;
-                // $.get('/fetch-massload', {'ids': nodes.join(',')})
-                // },
-                // .done(function (data) {
-                //     callback(data); // data needs to be a JSON object like: { "node_id" : { "id" : node_id, "text" : "asdf", ... }, other_node_id : { ... node data ...}  }
-                // })
-
-                // 'massload' : function (nodes, callback) {
-                //     $.get('/fetch-massload', {'ids': nodes.join(',')}) // example only
-                //
             }
-            // "massload" : {
-            //     "url" : "fetch-massload",
-            //     "dataType" : "json",
-            //     "type": "get",
-            //     "data" : function (nodes) {
-            //         return {
-            //             "ids" : nodes.join(",")
-            //         };
-            //     }
-            // }
         }).bind("move_node.jstree", function (e, data) {
-            // data.rslt.o is a list of objects that were moved
-            // Inspect data using your fav dev tools to see what the properties are
-
-            console.log('move_node.jstree, data', data);
 
             var oldParentId = Number(data.old_parent === '#' ? 0 : data.old_parent),
                 newParentId = Number(data.parent === '#' ? 0 : data.parent);
 
             var send = { 'id': data.node.id, 'oldParentId': oldParentId, 'newParentId': newParentId };
-
-            console.log('ForSend', send);
 
             axios.post('drag-n-drop', send).then(function (response) {
                 console.log(response);
@@ -61311,74 +61184,22 @@ $(document).ready(function () {
 
             $('.modal').removeClass('show');
 
-            console.log(nodes);
-
             $('#search-input').val('');
 
             console.info('THE SEARCH IS COMPLETE');
         });
 
-        // $(document).on('search.jstree', function (nodes, str, res) {
-        //     console.log('SEARCH IS COMPLETE');
-        //     console.log(nodes, typeof nodes);
-        //     console.log(str, typeof str);
-        //     console.log(res, typeof res);
-        // });
-
-        $(document).on('dnd_stop.vakata', function (e, data) {
-            var ref = $('#jstree_auth').jstree(true);
-            // console.log("REF", ref);
-
-            var elementId = ref.get_node(data.element).id;
-            var parentId = ref.get_node(data.element).parent;
-
-            if (parentId === '#') {
-                parentId = 0;
-            }
-
-            // console.log('DATA.ELEMENT', ref.get_node(data.element));
-            //
-            // console.log('ELEMENT-ID', ref.get_node(data.element).id);
-            //
-            // console.log("FUTURE PARENT", parentId, typeof parentId);
-            //
-            // var send = {'elementId': elementId, 'parentId': parentId};
-            //
-            // console.log('SEND', send, typeof send);
-
-            // axios.post('drag-n-drop', send)
-            //     .then(function (response) {
-            //         console.log(response);
-            //     })
-            //     .catch(function (error) {
-            //         swal({
-            //             title: 'An error has occurred during AJAX request!',
-            //             text: 'Drag-n-drop might not be saved. Please, try again later',
-            //             icon: 'error',
-            //             closeModal: false
-            //         });
-            //         console.log(error);
-            //     });
-        });
-
         $('#search-button').on('click', function (e) {
             e.preventDefault();
-            var v = $('#search-input').val();
-            $('#jstree_auth').jstree(true).search(v);
+            var searchString = $('#search-input').val();
+
+            if (__WEBPACK_IMPORTED_MODULE_0_moment___default()(searchString, 'DD.MM.YYYY').isValid()) {
+                searchString = __WEBPACK_IMPORTED_MODULE_0_moment___default()(searchString, 'DD.MM.YYYY').format('YYYY-MM-DD');
+            }
+            $('#jstree_auth').jstree(true).search(searchString);
 
             $('.modal').addClass('show');
         });
-
-        // var to = false;
-        // $('#search').keyup(function () {
-        //     if(to) { clearTimeout(to); }
-        //     to = setTimeout(function () {
-        //         var v = $('#search').val();
-        //
-        //         $('#jstree_auth').jstree(true).search(v);
-        //
-        //     }, 500);
-        // });
     });
 });
 
@@ -61394,8 +61215,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 
 
 
@@ -61410,8 +61229,7 @@ window.Dropzone.autoDiscover = false;
 $(document).ready(function () {
 
     var form = document.getElementById("dropzone-about");
-    console.log($('#dropzone-about').length, '($(dropzone).length)');
-    // if(form !== null){
+
     if ($('#dropzone-about').length) {
 
         var dropzoneAbout = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a("#dropzone-about", {
@@ -61424,6 +61242,8 @@ $(document).ready(function () {
             maxFiles: 2,
             maxFilesize: 3,
             resizeHeight: 120,
+            resizeWidth: 120,
+            resizeMethod: 'crop',
             dictFileTooBig: 'Разрешены только файлы размером менее 3МБ',
             previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  " + "<div class=\"dz-image\"><img data-dz-thumbnail /></div>\n  " + "<div class=\"dz-details\">\n    " + "<div class=\"dz-size\"><span data-dz-size></span></div>\n    " + "<div class=\"dz-filename\"><span data-dz-name></span></div>\n  " + "</div>\n  " + "<div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n  ",
             acceptedFiles: 'image/*',
@@ -61451,36 +61271,21 @@ $(document).ready(function () {
                     document.querySelector(".dz-message").style.display = 'none';
                 });
 
-                this.on('thumbnail', function (file, dataURL) {
-
-                    //file here is original, not a thumbnail, but dataURL is a base64 code of a thumbnail
-
-                    console.log(file);
-
-                    // self.thumbnail = dataURL;
-                });
-
                 this.on('sending', function (file, xhr, formData) {
 
                     formData.append("name", $('#name-about').val()); //this is dropzone formdata I assume
                     formData.append("email", $('#email-about').val());
-                    formData.append("password", $('#password-about').val());
                     formData.append("position", $('#position-about').val());
-                    formData.append("date_of_employment", __WEBPACK_IMPORTED_MODULE_2_moment___default()($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
+                    formData.append("date_of_employment", $('#date_of_employment-about').val());
                     formData.append("salary", $('#salary-about').val());
                     formData.append("parent_id", $('#parent_id-about').val());
-
-                    console.log(formData);
                 });
 
                 this.on('success', function (file, response) {
-                    console.log(response);
 
                     window.location = response;
                 });
                 this.on('error', function (file, error, xhr) {
-                    console.log(error);
-                    console.log(xhr);
 
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
                         title: 'An error has occurred during AJAX request!',
@@ -61490,9 +61295,6 @@ $(document).ready(function () {
                     });
                 });
 
-                console.log("EMPLOYEE", window.employee);
-                // var employee = JSON.parse(employee);
-
                 //need to create thumbnail and display it if user has an avatar
                 //for that I imitate file upload: create an empty file and display it thumbnail, thumbnail url points to user avatar
 
@@ -61500,16 +61302,9 @@ $(document).ready(function () {
                     var mockFile = { name: "Filename", size: 12345 };
                     this.emit("addedfile", mockFile);
 
-                    console.log(window.employee);
-
                     this.files[0] = mockFile;
-                    console.log(this.files, _typeof(this.files), 'this.files');
 
                     this.emit("thumbnail", mockFile, 'http://' + window.location.host + '/storage/users-avatars/' + window.employee.avatar);
-                    // dropzoneAbout.createThumbnailFromUrl(mockFile, window.employee.avatar);
-
-                    // var existingFileCount = 1; // The number of files already uploaded
-                    // this.options.maxFiles = this.options.maxFiles - existingFileCount;
                 }
             }
         });
@@ -61519,14 +61314,11 @@ $(document).ready(function () {
             var email = $('#email-about').val();
 
             axios.post('/employee/delete', { 'email': email }).then(function (response) {
-                console.log(response.status);
-                console.log(response);
 
                 if (response.status == 200) {
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()("Сотрудник был успешно удалён с базы данных!", {
                         icon: "success"
                     }).then(function () {
-                        console.log("THEN");
                         window.open('/home', '_blank');
                     });
                 }
@@ -61539,11 +61331,10 @@ $(document).ready(function () {
     }
 
     $('#apply-about').on('click', function (e) {
-        console.log("SUBMIT WAS Presses!");
 
         e.preventDefault();
         e.stopPropagation();
-        console.log(dropzoneAbout.getQueuedFiles().length);
+
         if (dropzoneAbout.getQueuedFiles().length > 0) {
             dropzoneAbout.processQueue();
         } else {
@@ -61564,8 +61355,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_sweetalert___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_sweetalert__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 
 
 
@@ -61582,8 +61371,10 @@ $(document).ready(function () {
 
     var selectChiefs = document.getElementById("chiefs-create");
 
+    //check if inputs with ids 'hierarchy-create' and 'chiefs-create' are exist
+    //i.e. this is page /create
+
     if (selectLevels != null && selectChiefs != null) {
-        console.log(chiefsPerLevel, typeof chiefsPerLevel === 'undefined' ? 'undefined' : _typeof(chiefsPerLevel), selectLevels, typeof selectLevels === 'undefined' ? 'undefined' : _typeof(selectLevels), selectChiefs, typeof selectChiefs === 'undefined' ? 'undefined' : _typeof(selectChiefs));
 
         var dropzoneCreate = new __WEBPACK_IMPORTED_MODULE_0_dropzone___default.a("#dropzone-create", {
             url: "create",
@@ -61595,6 +61386,8 @@ $(document).ready(function () {
             maxFiles: 2,
             maxFilesize: 3,
             resizeHeight: 120,
+            resizeWidth: 120,
+            resizeMethod: 'crop',
             dictFileTooBig: 'Разрешены только файлы размером менее 3МБ',
             previewTemplate: "<div class=\"dz-preview dz-file-preview\">\n  " + "<div class=\"dz-image\"><img data-dz-thumbnail /></div>\n  " + "<div class=\"dz-details\">\n    " + "<div class=\"dz-size\"><span data-dz-size></span></div>\n    " + "<div class=\"dz-filename\"><span data-dz-name></span></div>\n  " + "</div>\n  " + "<div class=\"dz-error-message\"><span data-dz-errormessage></span></div>\n  ",
             acceptedFiles: 'image/*',
@@ -61616,43 +61409,33 @@ $(document).ready(function () {
 
                 this.on("addedfile", function (file) {
 
+                    //remove previous file from Dropzone if new file was uploaded
+
                     if (typeof this.files[1] !== 'undefined') {
                         dzClosure.removeFile(this.files[0]);
                     }
                     document.querySelector(".dz-message").style.display = 'none';
                 });
 
-                this.on('thumbnail', function (file, dataURL) {
-
-                    //file here is original, not a thumbnail, but dataURL is a base64 code of a thumbnail
-
-                    console.log(file);
-
-                    // self.thumbnail = dataURL;
-                });
-
                 this.on('sending', function (file, xhr, formData) {
+
+                    //append data from form to Dropzone before sending ajax request
 
                     formData.append("name", $('#name-create').val()); //this is dropzone formdata I assume
                     formData.append("email", $('#email-create').val());
                     formData.append("password", $('#password-create').val());
                     formData.append("position", $('#position-create').val());
-                    formData.append("date_of_employment", __WEBPACK_IMPORTED_MODULE_2_moment___default()($('#date_of_employment-create').val(), 'DD.MM.YYYY').format('DD.MM.YYYY'));
+                    formData.append("date_of_employment", $('#date_of_employment-create').val());
                     formData.append("salary", $('#salary-create').val());
                     formData.append("hierarchy_level", $('#hierarchy_level-create').val());
                     formData.append("parent_id", $('#parent_id-create').val());
-
-                    console.log(formData);
                 });
 
                 this.on('success', function (file, response) {
-                    console.log(response);
 
                     window.location = '/employee/' + response + '/edit';
                 });
                 this.on('error', function (file, error, xhr) {
-                    console.log(error);
-                    console.log(xhr);
 
                     __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
                         title: 'An error has occurred during AJAX request!',
@@ -61664,22 +61447,26 @@ $(document).ready(function () {
             }
         });
 
-        console.log('CHIEFSPERLEVEL', window.chiefsPerLevel);
-        // var chiefsPerLevelObject = JSON.parse(chiefsPerLevel);
-
-        //Let set hierarchy and chief selects
         var index;
+
+        //chiefsPerLevel is a variable from php that denotes what employees at their hierarchy level
+        //{1: {id: 0, name: "Нет начальника"}, 2: [{'id': 'id', 'name':employee1}, {'id': 'id', 'name':employee2}]}
 
         for (index in window.chiefsPerLevel) {
 
             selectLevels.options[selectLevels.options.length] = new Option(index, index);
         }
 
+        //create options in select chiefs-create with employees of 1st hierarchy level
+
         window.chiefsPerLevel[1].forEach(function (item) {
             selectChiefs.options[selectChiefs.options.length] = new Option(item.name, item.id);
         });
 
         $('#hierarchy-create').on('change', function (e) {
+
+            //when selection in hierarchy-create select input changes
+            //refill chiefs-create select with new employees of selected level
 
             $('#chiefs-create').empty();
 
@@ -61690,11 +61477,13 @@ $(document).ready(function () {
     }
 
     $('#apply-create').on('click', function (e) {
-        console.log("SUBMIT WAS Presses!");
 
         e.preventDefault();
         e.stopPropagation();
-        console.log(dropzoneCreate.getQueuedFiles().length);
+
+        //if there is uploaded image use dropzone to send ajax request, otherwise send usual form submit
+        //because dropzon library will not process only form data without any file
+
         if (dropzoneCreate.getQueuedFiles().length > 0) {
             dropzoneCreate.processQueue();
         } else {
