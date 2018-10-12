@@ -28,12 +28,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        JavaScript::put([
-            'foo' => 'bar',
-            'user' => Employee::first(),
-            'age' => 29
-        ]);
-
         return view('home');
     }
 
@@ -124,11 +118,10 @@ class HomeController extends Controller
     {
         $str = $request->str;
 
-        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')
-            ->where('date_of_employment', 'LIKE', ['%' . $str . '%'])
-            ->orWhereRaw('name LIKE ?', ['%' . $str . '%'])
-            ->orWhereRaw('position LIKE ?', ['%' . $str . '%'])
-            ->orWhereRaw('salary LIKE ?', ['%' . $str . '%'])->get();
+        $collection = DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('name', 'LIKE', [$str . '%'])
+            ->union(DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('position', 'LIKE', [$str . '%']))
+            ->union(DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('date_of_employment', 'LIKE', [$str . '%']))
+            ->union(DB::table('employees')->select('id', 'parent_id', 'hierarchy_level', 'name', 'position', 'date_of_employment', 'salary')->where('salary', 'LIKE', [$str . '%']))->get();
 
         if($collection->isEmpty()){
             return response('No records found', 200);

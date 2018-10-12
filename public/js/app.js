@@ -61124,7 +61124,20 @@ $(document).ready(function () {
                 'ajax': {
                     'url': '/search',
                     'dataType': 'json',
-                    'type': 'GET'
+                    'type': 'GET',
+                    'error': function error(_error2) {
+
+                        if (_error2.responseText === 'No records found') {
+                            __WEBPACK_IMPORTED_MODULE_1_sweetalert___default()({
+                                title: 'Not found',
+                                text: 'No records was found matching your query',
+                                icon: 'warning',
+                                closeModal: false
+                            });
+                        }
+                        $('.modal').removeClass('show');
+                        console.log(_error2);
+                    }
                 }
             },
 
@@ -61180,7 +61193,12 @@ $(document).ready(function () {
                 });
                 console.log(error);
             });
-        }).bind("search.jstree", function (nodes, str, res) {
+        }).bind("search.jstree", function (e, data) {
+
+            if (data.nodes.length) {
+                var jstree = document.getElementById('jstree_auth');
+                jstree.scrollTop = data.nodes[0].scrollIntoView();
+            }
 
             $('.modal').removeClass('show');
 
@@ -61193,12 +61211,14 @@ $(document).ready(function () {
             e.preventDefault();
             var searchString = $('#search-input').val();
 
-            if (__WEBPACK_IMPORTED_MODULE_0_moment___default()(searchString, 'DD.MM.YYYY').isValid()) {
-                searchString = __WEBPACK_IMPORTED_MODULE_0_moment___default()(searchString, 'DD.MM.YYYY').format('YYYY-MM-DD');
-            }
-            $('#jstree_auth').jstree(true).search(searchString);
+            if (searchString !== '') {
+                if (__WEBPACK_IMPORTED_MODULE_0_moment___default()(searchString, 'DD.MM.YYYY').isValid()) {
+                    searchString = __WEBPACK_IMPORTED_MODULE_0_moment___default()(searchString, 'DD.MM.YYYY').format('YYYY-MM-DD');
+                }
+                $('#jstree_auth').jstree(true).search(searchString);
 
-            $('.modal').addClass('show');
+                $('.modal').addClass('show');
+            }
         });
     });
 });

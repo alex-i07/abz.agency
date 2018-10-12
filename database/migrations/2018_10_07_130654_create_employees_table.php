@@ -23,10 +23,16 @@ class createEmployeesTable extends Migration
 			$table->string("password",255);
 			$table->string("position",255);
 			$table->string("date_of_employment", 50);
-			$table->decimal("salary",10,2);
+			$table->string("salary",50);
 			$table->string("remember_token",100)->nullable();
 			$table->timestamp("created_at")->nullable();
 			$table->timestamp("updated_at")->nullable();
+			//indeces
+            $table->index('name');
+            $table->index('position');
+            $table->index('date_of_employment');
+            $table->index('salary');
+            $table->index('hierarchy_level');
         });
     }
 
